@@ -1,6 +1,7 @@
 package com.epam.java.ft.dao;
 
 import com.epam.java.ft.models.*;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,7 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+;
 
 public class OrderDao {
     public static Logger logger = Logger.getLogger("OrderDao");
@@ -28,8 +30,8 @@ public class OrderDao {
             while (res.next()) {
                 Order order = new Order(res.getInt("o.id"), new User(res.getInt("u.id"), res.getString("first_name"), res.getString("last_name"),
                         res.getString("email"), res.getString("u.user_password"), null, null, null),
-                        new Book(res.getInt("b.id"), res.getString("b.title"), new Edition(res.getInt("e.id"), res.getString("e.title"), res.getDate("e.date")),
-                                new Author(res.getInt("a.id"), res.getString("a.full_name"))),
+                        new Book(res.getInt("b.id"), res.getString("b.title"), res.getString("b.book_src"), res.getInt("b.price"), res.getInt("b.fine"), new Edition(res.getInt("e.id"), res.getString("e.title"), res.getDate("e.date")),
+                                new Author(res.getString("a.id"), res.getString("a.full_name"))),
                         res.getInt("o.book_amount"), res.getInt("o.fine"), res.getDate("o.deadline"), null, null);
                 orders.add(order);
             }

@@ -1,6 +1,7 @@
 package com.epam.java.ft.dao;
 
 import com.epam.java.ft.models.*;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,11 +13,12 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+;
 
 public class OrderDaoTest {
     Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
-            "root", "1111").getConnection();
+            "root", "1111").getConnectionWithDriverManager();
     Logger logger = Logger.getLogger("OrderDaoTest");
 
     @Before
@@ -33,8 +35,8 @@ public class OrderDaoTest {
         List<Order> orders = OrderDao.getOrders(connection);
         List<Order> expected = new ArrayList<Order>() {
             {
-                add(new Order(1, new User(1, "Darth", "Vader", "vader@example.com", "1111", null, null, null), new Book(1, "Harry Potter and the philosopher's stone", new Edition(2, "Edition 2", new Date(2020, 2, 1)), new Author(1, "Joanne Rowling")), 2, 0, null, null, null));
-                add(new Order(2, new User(3, "Mace", "Vindu", "vindu@example.com", "1111", null, null, null), new Book(4, "33 strategies of War", new Edition(1, "Edition 1", new Date(2020, 1, 1)), new Author(3, "Robert Greene")), 3, 0, null, null, null));
+                add(new Order(1, new User(1, "Darth", "Vader", "vader@example.com", "1111", null, null, null), new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")), 2, 0, null, null, null));
+                add(new Order(2, new User(3, "Mace", "Vindu", "vindu@example.com", "1111", null, null, null), new Book(1, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")), 3, 0, null, null, null));
             }
         };
         Assert.assertEquals(expected, orders);

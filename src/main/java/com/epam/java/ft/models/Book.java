@@ -5,12 +5,18 @@ import java.util.Objects;
 public class Book {
     private int id;
     private String title;
+    private String bookSrc;
+    private int price;
+    private int fine;
     private Edition edition;
     private Author author;
 
-    public Book(int id, String title, Edition edition, Author author) {
+    public Book(int id, String title, String bookSrc, int price, int fine, Edition edition, Author author) {
         this.id = id;
         this.title = title;
+        this.bookSrc = bookSrc;
+        this.price = price;
+        this.fine = fine;
         this.edition = edition;
         this.author = author;
     }
@@ -29,6 +35,30 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getBookSrc() {
+        return bookSrc;
+    }
+
+    public void setBookSrc(String bookSrc) {
+        this.bookSrc = bookSrc;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getFine() {
+        return fine;
+    }
+
+    public void setFine(int fine) {
+        this.fine = fine;
     }
 
     public Edition getEdition() {

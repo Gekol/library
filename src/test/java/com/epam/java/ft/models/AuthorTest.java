@@ -9,18 +9,18 @@ public class AuthorTest {
 
     @Before
     public void setUp() {
-        author = new Author(1, "Joanne Rowling");
+        author = new Author("rowling", "Joanne Rowling");
     }
 
     @Test
     public void getIdTest() {
-        Assert.assertEquals(1, author.getId());
+        Assert.assertEquals("rowling", author.getId());
     }
 
     @Test
     public void setIdTest() {
-        author.setId(2);
-        Assert.assertEquals(2, author.getId());
+        author.setId("rowling1");
+        Assert.assertEquals("rowling1", author.getId());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class AuthorTest {
 
     @Test
     public void equalsTest() {
-        Author expected = new Author(1, "Joanne Rowling");
+        Author expected = new Author("rowling", "Joanne Rowling");
         Assert.assertEquals(expected, author);
     }
 }

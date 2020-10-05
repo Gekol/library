@@ -10,11 +10,11 @@ public class BookTest {
 
     Book book = null;
     Edition edition = new Edition(1, "edition1", new Date());
-    Author author = new Author(1, "Joanne Rowling");
+    Author author = new Author("rowling", "Joanne Rowling");
 
     @Before
     public void setUp() {
-        book = new Book(1, "Harry Potter and the philosopher's stone", edition, author);
+        book = new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, edition, author);
     }
 
     @Test
@@ -62,9 +62,42 @@ public class BookTest {
 
     @Test
     public void setAuthorTest() {
-        Author expected = new Author(1, "Joanne1 Rowling");
+        Author expected = new Author("rowling", "Joanne1 Rowling");
         book.setAuthor(expected);
         Assert.assertEquals(expected, book.getAuthor());
+    }
+
+    @Test
+    public void getBookSrcTest() {
+        Assert.assertEquals("harry_potter_and_the_philosopher's_stone.webp", book.getBookSrc());
+    }
+
+    @Test
+    public void setBookSrcTest() {
+        book.setBookSrc("\"harry_potter_and_the_philosopher's_stone1.webp\"");
+        Assert.assertEquals("\"harry_potter_and_the_philosopher's_stone1.webp\"", book.getBookSrc());
+    }
+
+    @Test
+    public void getPriceTest() {
+        Assert.assertEquals(10, book.getPrice());
+    }
+
+    @Test
+    public void setPriceTest() {
+        book.setPrice(15);
+        Assert.assertEquals(15, book.getPrice());
+    }
+
+    @Test
+    public void getFineTest() {
+        Assert.assertEquals(5, book.getFine());
+    }
+
+    @Test
+    public void setFineTest() {
+        book.setFine(7);
+        Assert.assertEquals(7, book.getFine());
     }
 
     @Test
@@ -74,7 +107,7 @@ public class BookTest {
 
     @Test
     public void equalsTest() {
-        Book expected = new Book(1, "Harry Potter and the philosopher's stone", edition, author);
+        Book expected = new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, edition, author);
         Assert.assertEquals(expected, book);
     }
 }

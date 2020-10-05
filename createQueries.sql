@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS authors
 (
-    id        INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id        VARCHAR(100) PRIMARY KEY,
     full_name VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS userTypes
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS users
     id              INTEGER PRIMARY KEY AUTO_INCREMENT,
     first_name      VARCHAR(50),
     last_name       VARCHAR(50),
-    email           VARCHAR(100) NOT NULL,
+    email           VARCHAR(100) NOT NULL UNIQUE,
     user_password   VARCHAR(100) NOT NULL,
     user_type_id    INTEGER REFERENCES userTypes (id) ON DELETE CASCADE,
     user_status_id  INTEGER REFERENCES userStatuses (id) ON DELETE CASCADE,
@@ -45,7 +45,10 @@ CREATE TABLE IF NOT EXISTS books
 (
     id         INTEGER PRIMARY KEY AUTO_INCREMENT,
     title      VARCHAR(100),
-    author_id  INTEGER REFERENCES authors (id) ON DELETE CASCADE,
+    book_src   VARCHAR(100),
+    price      INTEGER,
+    fine       INTEGER,
+    author_id  VARCHAR(100) REFERENCES authors (id) ON DELETE CASCADE,
     edition_id INTEGER references editions (id) ON DELETE CASCADE
 );
 

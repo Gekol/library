@@ -14,12 +14,11 @@ public class CatalogTest {
     @Before
     public void setUp() {
         Edition edition = new Edition(1, "edition1", new Date());
-        Author author = new Author(1, "Joanne Rowling");
+        Author author = new Author("rowling", "Joanne Rowling");
         List<Book> books = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", edition, author));
-                add(new Book(2, "Harry Potter and the chamber of secrets", edition, author));
-                add(new Book(3, "Harry Potter and the prisoner of Azkaban", edition, author));
+                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
+                add(new Book(1, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
             }
         };
         List<Integer> bookCounts = new ArrayList<Integer>() {
@@ -35,12 +34,11 @@ public class CatalogTest {
     @Test
     public void getBooksTest() {
         Edition edition = new Edition(1, "edition1", new Date());
-        Author author = new Author(1, "Joanne Rowling");
+        Author author = new Author("rowling", "Joanne Rowling");
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", edition, author));
-                add(new Book(2, "Harry Potter and the chamber of secrets", edition, author));
-                add(new Book(3, "Harry Potter and the prisoner of Azkaban", edition, author));
+                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
+                add(new Book(1, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
             }
         };
         Assert.assertEquals(expected, catalog.getBooks());
@@ -49,12 +47,11 @@ public class CatalogTest {
     @Test
     public void setBooksTest() {
         Edition edition = new Edition(1, "edition1", new Date());
-        Author author = new Author(1, "Joanne Rowling");
+        Author author = new Author("rowling", "Joanne Rowling");
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", edition, author));
-                add(new Book(2, "Harry Potter and the chamber of secrets", edition, author));
-                add(new Book(3, "Harry Potter and the prisoner of Azkaban", edition, author));
+                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
+                add(new Book(1, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
             }
         };
         catalog.setBooks(expected);
@@ -94,12 +91,11 @@ public class CatalogTest {
     @Test
     public void equalsTest() {
         Edition edition = new Edition(1, "edition1", new Date());
-        Author author = new Author(1, "Joanne Rowling");
+        Author author = new Author("rowling", "Joanne Rowling");
         List<Book> books = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", edition, author));
-                add(new Book(2, "Harry Potter and the chamber of secrets", edition, author));
-                add(new Book(3, "Harry Potter and the prisoner of Azkaban", edition, author));
+                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
+                add(new Book(1, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")));
             }
         };
         List<Integer> bookCounts = new ArrayList<Integer>() {

@@ -11,8 +11,8 @@ public class OrderTest {
     User user = new User(1, "Georgii", "Sokolovskyi", "george@example.com",
             "1111", new UserType(1, "user"), new UserStatus(1, "active"),
             new Subscription(1, new Date(1000), new Date(2000)));
-    Book book = new Book(1, "Harry Potter and the philosopher's stone",
-            new Edition(1, "edition1", new java.util.Date()), new Author(1, "Joanne Rowling"));
+    Book book = new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+            new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling"));
     OrderStatus orderStatus = new OrderStatus(1, "new");
     OrderType orderType = new OrderType(1, "home");
 
@@ -118,8 +118,8 @@ public class OrderTest {
 
     @Test
     public void equalsTest() {
-        Order expected = new Order(1, user, new Book(1, "Harry Potter and the philosopher's stone",
-                new Edition(1, "edition1", new java.util.Date()), new Author(1, "Joanne Rowling")),
+        Order expected = new Order(1, user, new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")),
                 1, 0, new Date(1000), orderStatus, orderType);
         Assert.assertEquals(expected, order);
     }

@@ -4,6 +4,7 @@ import com.epam.java.ft.models.Subscription;
 import com.epam.java.ft.models.User;
 import com.epam.java.ft.models.UserStatus;
 import com.epam.java.ft.models.UserType;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,11 +16,12 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+;
 
 public class UserDaoTest {
     Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
-            "root", "1111").getConnection();
+            "root", "1111").getConnectionWithDriverManager();
     Logger logger = Logger.getLogger("OrderDaoTest");
 
     @Before
@@ -55,7 +57,7 @@ public class UserDaoTest {
     @Test
     public void insertUserTest() {
         int expected = 1;
-        int res = UserDao.insertUser(connection, new User(5, "Darth", "Sidius", "vader@example.com", "1111", new UserType(3, "admin"), new UserStatus(1, "active"), new Subscription(1, new Date(120, 2, 15), new Date(120, 11, 15))));
+        int res = UserDao.insertUser(connection, new User(5, "Darth", "Sidius", "vader1@example.com", "1111", new UserType(3, "admin"), new UserStatus(1, "active"), new Subscription(1, new Date(120, 2, 15), new Date(120, 11, 15))));
         Assert.assertEquals(expected, res);
     }
 

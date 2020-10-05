@@ -1,15 +1,17 @@
 package com.epam.java.ft.dao;
 
 import com.epam.java.ft.models.Subscription;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
+;
 
 public class SubscriptionDao {
     public static Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/p8db?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
-            "root", "1111").getConnection();
+            "root", "1111").getConnectionWithDriverManager();
     public static Logger logger = Logger.getLogger("UserDao");
 
     public static int createSubscription(Subscription subscription) {

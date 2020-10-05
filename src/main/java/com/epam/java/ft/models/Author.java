@@ -3,20 +3,27 @@ package com.epam.java.ft.models;
 import java.util.Objects;
 
 public class Author {
-    private int id;
+    private String id;
     private String fullName;
 
-    public Author(int id, String fullName) {
+    public Author(String id, String fullName) {
         this.id = id;
-        this.fullName = fullName;
+        this.fullName = capitalizeWord(fullName);
     }
 
-    public int getId() {
+    private static String capitalizeWord(String str) {
+        String words[] = str.split("\\s");
+        String capitalizeWord = "";
+        for (String w : words) {
+            String first = w.substring(0, 1);
+            String afterfirst = w.substring(1);
+            capitalizeWord += first.toUpperCase() + afterfirst + " ";
+        }
+        return capitalizeWord.trim();
+    }
+
+    public String getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFullName() {
@@ -25,6 +32,10 @@ public class Author {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

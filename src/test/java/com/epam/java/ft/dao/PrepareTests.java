@@ -21,7 +21,7 @@ public class PrepareTests {
         Reader reader = new BufferedReader(new FileReader("createQueries.sql"));
         sr.runScript(reader);
         //Creating a reader object
-        reader = new BufferedReader(new FileReader("inserts.sql"));
+        reader = new BufferedReader(new FileReader("testsInserts.sql"));
         //Running the script
         sr.runScript(reader);
     }

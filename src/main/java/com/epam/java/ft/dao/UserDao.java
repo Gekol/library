@@ -4,11 +4,13 @@ import com.epam.java.ft.models.Subscription;
 import com.epam.java.ft.models.User;
 import com.epam.java.ft.models.UserStatus;
 import com.epam.java.ft.models.UserType;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+;
 
 public class UserDao {
 
@@ -76,6 +78,16 @@ public class UserDao {
             logger.info(e.getMessage());
         }
         return 0;
+    }
+
+    public static boolean loginUser(Connection connection, String email, String password) {
+        String query = "SELECT * FROM users WHERE email=" + email + " AND user_password=" + password;
+        try (Statement statement = connection.createStatement()) {
+            return statement.executeQuery(query).next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static int updateUserStatus(Connection connection, int id, String status) {
