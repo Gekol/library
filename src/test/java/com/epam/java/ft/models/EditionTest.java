@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class EditionTest {
     Edition edition = null;
     
     @Before
     public void setUp() {
-        edition = new Edition(1, "edition1", new Date());
+        edition = new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class EditionTest {
 
     @Test
     public void getTitleTest() {
-        String expected = "edition1";
+        String expected = "Edition 1";
         Assert.assertEquals(expected, edition.getTitle());
     }
 
@@ -42,13 +42,13 @@ public class EditionTest {
 
     @Test
     public void getDateTest() {
-        Date expected = new Date();
+        Date expected = new Date(120, 0, 1);
         Assert.assertEquals(expected, edition.getDate());
     }
 
     @Test
     public void setDateTest() {
-        Date expected = new Date();
+        Date expected = new Date(120, 10, 6);
         edition.setDate(expected);
         Assert.assertEquals(expected, edition.getDate());
     }
@@ -60,7 +60,7 @@ public class EditionTest {
 
     @Test
     public void equalsSameTest() {
-        Edition expected = new Edition(1, "edition1", new Date());
+        Edition expected = new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1));
         Assert.assertEquals(expected, edition);
     }
 }

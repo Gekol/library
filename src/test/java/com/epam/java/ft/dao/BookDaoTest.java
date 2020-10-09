@@ -3,7 +3,6 @@ package com.epam.java.ft.dao;
 import com.epam.java.ft.models.Author;
 import com.epam.java.ft.models.Book;
 import com.epam.java.ft.models.Edition;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,9 +13,10 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
-;
 
 public class BookDaoTest {
     Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
@@ -34,11 +34,15 @@ public class BookDaoTest {
 
     @Test
     public void getBooksTest() {
-        List<Book> books = BookDao.getBooks(connection);
+        List<Book> books = BookDao.getBooks(connection, "en");
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
-                add(new Book(2, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
             }
         };
         Assert.assertEquals(expected.toString(), books.toString());
@@ -46,11 +50,16 @@ public class BookDaoTest {
 
     @Test
     public void getOrderedByTitleTest() {
-        List<Book> books = BookDao.getOrderedBooks(connection, "b.title");
+        List<Book> books = BookDao.getBooks(connection, "en");
+        books.sort(Comparator.comparing(book -> book.getTitle("en")));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(2, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
-                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
             }
         };
         Assert.assertEquals(expected.toString(), books.toString());
@@ -58,11 +67,16 @@ public class BookDaoTest {
 
     @Test
     public void getOrderedByAuthorTest() {
-        List<Book> books = BookDao.getOrderedBooks(connection, "a.id");
+        List<Book> books = BookDao.getBooks(connection, "en");
+        books.sort(Comparator.comparing(book -> book.getAuthor().getFullName()));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
-                add(new Book(2, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
             }
         };
         Assert.assertEquals(expected.toString(), books.toString());
@@ -70,11 +84,16 @@ public class BookDaoTest {
 
     @Test
     public void getOrderedByEditionTest() {
-        List<Book> books = BookDao.getOrderedBooks(connection, "e.title");
+        List<Book> books = BookDao.getBooks(connection, "en");
+        books.sort(Comparator.comparing(book -> book.getEdition().getTitle()));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
-                add(new Book(2, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
             }
         };
         Assert.assertEquals(expected.toString(), books.toString());
@@ -82,11 +101,32 @@ public class BookDaoTest {
 
     @Test
     public void getOrderedByEditionDateTest() {
-        List<Book> books = BookDao.getOrderedBooks(connection, "e.date");
+        List<Book> books = BookDao.getBooks(connection, "en");
+        books.sort(Comparator.comparing(book -> book.getEdition().getDate()));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
-                add(new Book(2, "Harry Potter and the chamber of secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "joanne rowling")));
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+            }
+        };
+        Assert.assertEquals(expected.toString(), books.toString());
+    }
+
+    @Test
+    public void getBookByTitle() {
+        List<Book> books = BookDao.getBook(connection, "Harry", "en");
+        List<Book> expected = new ArrayList<Book>() {
+            {
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                        new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                        new Author("rowling", "Joanne Rowling")));
             }
         };
         Assert.assertEquals(expected.toString(), books.toString());

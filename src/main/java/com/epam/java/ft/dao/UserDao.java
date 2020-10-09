@@ -4,22 +4,28 @@ import com.epam.java.ft.models.Subscription;
 import com.epam.java.ft.models.User;
 import com.epam.java.ft.models.UserStatus;
 import com.epam.java.ft.models.UserType;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-;
+import java.util.logging.Logger;
 
 public class UserDao {
 
     private static Logger logger = Logger.getLogger("UserDao");
 
-    public static User getUser(Connection connection, int id) {
+    private static User getUser(ResultSet res, String language) throws SQLException {
+        return new User(res.getInt("u.id"), res.getString("first_name"), res.getString("last_name"),
+                res.getString("email"), res.getString("user_password"),
+                new UserType(res.getInt("ut.id"), res.getString("type_" + language)),
+                new UserStatus(res.getInt("us.id"), res.getString("status_" + language)),
+                (res.getInt("s.id") != 0) ? new Subscription(res.getInt("s.id"), res.getDate("given"), res.getDate("expires")) : null);
+    }
+
+    public static User getUser(Connection connection, int id, String language) {
         String getUserQuery = "SELECT * " +
                 "FROM users u\n" +
-                "         JOIN subscriptions s on u.subscription_id = s.id\n" +
+                "         LEFT JOIN subscriptions s on u.subscription_id = s.id\n" +
                 "         JOIN userStatuses us ON u.user_status_id = us.id\n" +
                 "         JOIN userTypes ut ON u.user_type_id = ut.id " +
                 "WHERE u.id=?;";
@@ -27,11 +33,7 @@ public class UserDao {
             getUserStatement.setInt(1, id);
             ResultSet res = getUserStatement.executeQuery();
             if (res.next()) {
-                return new User(res.getInt("u.id"), res.getString("first_name"), res.getString("last_name"),
-                        res.getString("email"), res.getString("u.user_password"),
-                        new UserType(res.getInt("ut.id"), res.getString("ut.type")),
-                        new UserStatus(res.getInt("s.id"), res.getString("status")),
-                        new Subscription(res.getInt("s.id"), res.getDate("s.given"), res.getDate("s.expires")));
+                return getUser(res, language);
             }
         } catch (SQLException e) {
             logger.info(e.getMessage());
@@ -39,22 +41,16 @@ public class UserDao {
         return null;
     }
 
-    public static List<User> getAllUsers(Connection connection) {
-        String getUsersQuery = "SELECT * " +
-                "FROM users u\n" +
-                "         JOIN subscriptions s on u.subscription_id = s.id\n" +
+    public static List<User> getAllUsers(Connection connection, String language) {
+        String getUsersQuery = "SELECT * FROM users u\n" +
+                "         LEFT JOIN subscriptions s on u.subscription_id = s.id\n" +
                 "         JOIN userStatuses us ON u.user_status_id = us.id\n" +
                 "         JOIN userTypes ut ON u.user_type_id = ut.id; ";
         ArrayList<User> users = new ArrayList<>();
         try (Statement getUsersStatement = connection.createStatement()) {
             ResultSet res = getUsersStatement.executeQuery(getUsersQuery);
             while (res.next()) {
-                User user = new User(res.getInt("u.id"), res.getString("first_name"), res.getString("last_name"),
-                        res.getString("email"), res.getString("u.user_password"),
-                        new UserType(res.getInt("ut.id"), res.getString("ut.type")),
-                        new UserStatus(res.getInt("s.id"), res.getString("status")),
-                        new Subscription(res.getInt("s.id"), res.getDate("s.given"), res.getDate("s.expires")));
-                users.add(user);
+                users.add(getUser(res, language));
             }
         } catch (SQLException e) {
             logger.info(e.getMessage());
@@ -72,7 +68,7 @@ public class UserDao {
             insertUserStatement.setString(4, user.getPassword());
             insertUserStatement.setInt(5, user.getUserType().getId());
             insertUserStatement.setInt(6, user.getUserStatus().getId());
-            insertUserStatement.setInt(7, user.getSubscription().getId());
+            insertUserStatement.setNull(7, java.sql.Types.INTEGER);
             return insertUserStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info(e.getMessage());
@@ -80,24 +76,32 @@ public class UserDao {
         return 0;
     }
 
-    public static boolean loginUser(Connection connection, String email, String password) {
-        String query = "SELECT * FROM users WHERE email=" + email + " AND user_password=" + password;
-        try (Statement statement = connection.createStatement()) {
-            return statement.executeQuery(query).next();
+    public static User loginUser(Connection connection, String email, String password, String language) {
+        String query = "SELECT * FROM users u\n" +
+                "         LEFT JOIN subscriptions s on u.subscription_id = s.id\n" +
+                "         JOIN userStatuses us ON u.user_status_id = us.id\n" +
+                "         JOIN userTypes ut ON u.user_type_id = ut.id WHERE email=? AND user_password=?;";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return getUser(resultSet, language);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
-    public static int updateUserStatus(Connection connection, int id, String status) {
-        String getStatusIdQuery = "SELECT id FROM userStatuses WHERE status=?";
+    public static int updateUserStatus(Connection connection, int id, String status, String language) {
+        String getStatusIdQuery = "SELECT id FROM userStatuses WHERE status_" + language + "=?";
         String updateStatusQuery = "UPDATE users SET user_status_id=? WHERE id=?";
         return changeUserMetaData(connection, id, status, getStatusIdQuery, updateStatusQuery);
     }
 
-    public static int updateUserType(Connection connection, int id, String type) {
-        String getTypeIdQuery = "SELECT id FROM userTypes WHERE type=?";
+    public static int updateUserType(Connection connection, int id, String type, String language) {
+        String getTypeIdQuery = "SELECT id FROM userTypes WHERE type_" + language + "=?";
         String updateTypeQuery = "UPDATE users SET user_type_id=? WHERE id=?";
         return changeUserMetaData(connection, id, type, getTypeIdQuery, updateTypeQuery);
     }

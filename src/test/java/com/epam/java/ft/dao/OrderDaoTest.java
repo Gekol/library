@@ -32,11 +32,19 @@ public class OrderDaoTest {
 
     @Test
     public void getOrdersTest() {
-        List<Order> orders = OrderDao.getOrders(connection);
+        List<Order> orders = OrderDao.getOrders(connection, "en");
         List<Order> expected = new ArrayList<Order>() {
             {
-                add(new Order(1, new User(1, "Darth", "Vader", "vader@example.com", "1111", null, null, null), new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")), 2, 0, null, null, null));
-                add(new Order(2, new User(3, "Mace", "Vindu", "vindu@example.com", "1111", null, null, null), new Book(1, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5, new Edition(1, "Edition 1", new Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")), 3, 0, null, null, null));
+                add(new Order(1,
+                        new User(1, "Darth", "Vader", "vader@example.com", "1111", null, null, null),
+                        new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                                new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                                new Author("rowling", "Joanne Rowling")), 0, null, null, null));
+                add(new Order(2,
+                        new User(3, "Mace", "Vindu", "vindu@example.com", "1111", null, null, null),
+                        new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                                new Edition(1, "Edition 1", new Date(120, 0, 1)),
+                                new Author("rowling", "Joanne Rowling")), 0, null, null, null));
             }
         };
         Assert.assertEquals(expected, orders);

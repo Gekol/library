@@ -4,7 +4,6 @@ import com.epam.java.ft.dao.*;
 import com.epam.java.ft.models.Author;
 import com.epam.java.ft.models.Book;
 import com.epam.java.ft.models.User;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -12,25 +11,35 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainPageServlet extends HttpServlet {
-    public static final String LOGGED_IN_ATTRIBUTE = "loggedIn";
     public static Logger logger = Logger.getLogger("MainPageServlet");
-    private Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/library?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
-            "root", "1111").getConnectionWithDriverManager();
+    private Connection connection = ConnectionPool.getConnection();
+    private HashMap<String, String> statuses = new HashMap<String, String>() {{
+        put("active_en", "Active");
+        put("active_ru", "Активный");
+        put("blocked_en", "Blocked");
+        put("blocked_ru", "Заблокированный");
+    }};
+    private HashMap<String, String> types = new HashMap<String, String>() {{
+        put("user_en", "User");
+        put("user_ru", "Пользователь");
+        put("librarian_en", "Librarian");
+        put("librarian_ru", "Библиотекарь");
+        put("admin_en", "Admin");
+        put("admin_ru", "Админимтратор");
+    }};
 
-    public static void logIn(HttpServletRequest request, String value) {
-        request.getSession(true).setAttribute(LOGGED_IN_ATTRIBUTE, value);
-    }
 
-    private List<Book> getBooksByAuthor(HttpServletRequest request) {
-        List<Book> books = BookDao.getBooks(connection);
+    private List<Book> getBooksByAuthor(HttpServletRequest request, String lang) {
+        List<Book> books = BookDao.getBooks(connection, lang);
         int i = 0;
         while (i != books.size()) {
             if (request.getParameter(books.get(i).getAuthor().getId()) == null) {
@@ -42,87 +51,131 @@ public class MainPageServlet extends HttpServlet {
         return books;
     }
 
+    private void orderBooks(String orderBy, String ascending, final String constLanguage, List<Book> books) {
+
+        if (orderBy.equals("title")) {
+            if (ascending.equals("true")) {
+                books.sort(Comparator.comparing(book -> book.getTitle(constLanguage)));
+            } else {
+                books.sort((book, t1) -> t1.getTitle(constLanguage).compareTo(book.getTitle(constLanguage)));
+            }
+        }
+        if (orderBy.equals("author")) {
+            if (ascending.equals("true")) {
+                books.sort(Comparator.comparing(book -> book.getAuthor().getFullName()));
+            } else {
+                books.sort((book, t1) -> t1.getAuthor().getFullName().compareTo(book.getAuthor().getFullName()));
+            }
+        }
+        if (orderBy.equals("edition")) {
+            if (ascending.equals("true")) {
+                books.sort(Comparator.comparing(book -> book.getEdition().getTitle()));
+            } else {
+                books.sort((book, t1) -> t1.getEdition().getTitle().compareTo(book.getEdition().getTitle()));
+            }
+        }
+        if (orderBy.equals("editionDate")) {
+            if (ascending.equals("true")) {
+                books.sort(Comparator.comparing(book -> book.getEdition().getDate()));
+            } else {
+                books.sort((book, t1) -> t1.getEdition().getDate().compareTo(book.getEdition().getDate()));
+            }
+        }
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Author> authors = AuthorDao.getAuthors(connection);
+        String language = request.getParameter("language");
+        List<Author> authors;
+        if (language == null) {
+            language = "ru";
+        }
+        request.setAttribute("language", language);
+        authors = AuthorDao.getAuthors(connection, language);
+
         request.setAttribute("authors", authors);
 
         String getBook = request.getParameter("book");
-        List<Book> books = getBooksByAuthor(request);
+        List<Book> books = getBooksByAuthor(request, language);
 
-        Pattern pattern = Pattern.compile("\\*/\\d+");
-        String currentPath = request.getRequestURL().toString();
-        Matcher matcher = pattern.matcher(currentPath);
+        String orderBy = request.getParameter("orderBy");
+        String ascending = request.getParameter("ascending");
+        if (orderBy == null) {
+            orderBy = "title";
+        }
+        if (ascending == null) {
+            ascending = "true";
+        }
 
-        int currentPage = 1;
+        request.setAttribute("ascending", ascending);
+        request.setAttribute("orderBy", orderBy);
 
-        if (matcher.find()) {
-            currentPage = Integer.parseInt(currentPath.substring(matcher.start(), matcher.end()));
+        String currentPage = "1";
+        if (request.getParameter("page") != null) {
+            currentPage = request.getParameter("page");
         }
         request.setAttribute("page", currentPage);
 
         if (getBook == null) {
-            if (books.size() != 0) {
-                request.setAttribute("books", books);
-            } else {
-                request.setAttribute("books", BookDao.getBooks(connection));
+            if (books.size() == 0) {
+                books = BookDao.getBooks(connection, language);
             }
+            orderBooks(orderBy, ascending, language, books);
+            request.setAttribute("books", books);
         } else {
-            request.setAttribute("books", BookDao.getBook(connection, getBook));
-        }
-
-        if (request.getSession().getAttribute(LOGGED_IN_ATTRIBUTE) != null) {
-            logIn(request, "false");
+            request.setAttribute("books", BookDao.getBook(connection, getBook, language));
         }
 
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/index.jsp");
         view.forward(request, response);
     }
 
-    private boolean isValidString(String name, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(name);
-        return matcher.matches();
+    private void logIn(User user, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("loggedIn", "true");
+        session.setAttribute("email", user.getEmail());
+        String name = user.getFirstName();
+        String surname = user.getLastName();
+        String username;
+        if (!name.equals("") && !surname.equals("")) {
+            username = name + " " + surname;
+        } else if (!name.equals("")) {
+            username = name;
+        } else {
+            username = surname;
+        }
+        session.setAttribute("userName", username);
     }
 
-    private boolean registrationValidation(Map<String, String[]> parameters) {
-        if (parameters.get("first_name") != null && !isValidString(parameters.get("first_name")[0], "^[a-zA-Z]+$")) {
-            return false;
-        }
-        if (parameters.get("last_name") != null && !isValidString(parameters.get("last_name")[0], "^[a-zA-Z]+$")) {
-            return false;
-        }
-        if (!EmailValidator.getInstance().isValid(parameters.get("email")[0])) {
-            return false;
-        }
-        return isValidString(parameters.get("password")[0], "^(?=.*\\\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$");
-    }
-
-    private void addNewUser(Map<String, String[]> parameters) {
-        if (registrationValidation(parameters)) {
-            User newUser = new User(1, parameters.get("first_name") != null ? parameters.get("first_name")[0] : null, parameters.get("last_name") != null ? parameters.get("last_name")[0] : null,
-                    parameters.get("email")[0], parameters.get("password")[0], UserTypeDao.getType(connection, "user"), UserStatusDao.getStatus(connection, "active"), null);
-            UserDao.insertUser(connection, newUser);
-        }
+    private User addNewUser(Map<String, String[]> parameters, String language) {
+        User newUser = new User(1, parameters.get("first_name")[0], parameters.get("last_name")[0],
+                parameters.get("email")[0], parameters.get("password")[0], UserTypeDao.getType(connection, types.get("user_" + language), language),
+                UserStatusDao.getStatus(connection, statuses.get("active_" + language), language), null);
+        UserDao.insertUser(connection, newUser);
+        return newUser;
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, String[]> parameters = request.getParameterMap();
-        RequestDispatcher profilePage = request.getRequestDispatcher("WEB-INF/view/profile.jsp");
-        if (parameters.containsKey("first_name")) {
-            addNewUser(parameters);
-            MainPageServlet.logIn(request, "true");
-            System.out.println(request.getSession().getAttribute("loggedIn"));
-            response.sendRedirect("library/profile");
-        } else if (UserDao.loginUser(connection, parameters.get("email")[0], parameters.get("password")[0])) {
-            MainPageServlet.logIn(request, "true");
-            System.out.println(request.getSession().getAttribute("loggedIn"));
-            response.sendRedirect("library/profile");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String language = request.getParameter("language");
+        if (language == null) {
+            language = "ru";
+        }
+        User user;
+        if (request.getParameterMap().containsKey("first_name")) {
+            user = addNewUser(request.getParameterMap(), language);
+            logIn(user, request);
+            response.sendRedirect(request.getContextPath() + "/profile");
         } else {
-            response.sendRedirect("/main");
-            RequestDispatcher mainPage = request.getRequestDispatcher("WEB-INF/view/index.jsp");
-            mainPage.forward(request, response);
+            user = UserDao.loginUser(connection, email, password, language);
+            if (user != null) {
+                logIn(user, request);
+                response.sendRedirect(request.getContextPath() + "/profile");
+            } else {
+                response.sendRedirect(request.getContextPath());
+            }
         }
     }
 }

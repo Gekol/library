@@ -9,12 +9,13 @@ import java.util.Date;
 public class BookTest {
 
     Book book = null;
-    Edition edition = new Edition(1, "edition1", new Date());
+    Edition edition = new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1));
     Author author = new Author("rowling", "Joanne Rowling");
 
     @Before
     public void setUp() {
-        book = new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, edition, author);
+        book = new Book(1, "Harry Potter and the philosopher's stone",
+                "harry_potter_and_the_philosopher's_stone.webp", 10, 5, edition, author);
     }
 
     @Test
@@ -33,14 +34,14 @@ public class BookTest {
     @Test
     public void getTitleTest() {
         String expected = "Harry Potter and the philosopher's stone";
-        Assert.assertEquals(expected, book.getTitle());
+        Assert.assertEquals(expected, book.getTitle(""));
     }
 
     @Test
     public void setTitleTest() {
         String expected = "Harry Potter and the chamber of secrets";
-        book.setTitle(expected);
-        Assert.assertEquals(expected, book.getTitle());
+        book.setTitle(expected, "");
+        Assert.assertEquals(expected, book.getTitle(""));
     }
 
     @Test
@@ -107,7 +108,8 @@ public class BookTest {
 
     @Test
     public void equalsTest() {
-        Book expected = new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5, edition, author);
+        Book expected = new Book(1, "Harry Potter and the philosopher's stone",
+                "harry_potter_and_the_philosopher's_stone.webp", 10, 5, edition, author);
         Assert.assertEquals(expected, book);
     }
 }

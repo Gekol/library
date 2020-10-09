@@ -7,17 +7,15 @@ public class Order {
     private int id;
     private User user;
     private Book book;
-    private int bookAmount;
     private int fine;
     private Date deadline;
     private OrderStatus orderStatus;
     private OrderType orderType;
 
-    public Order(int id, User user, Book book, int bookAmount, int fine, Date deadline, OrderStatus orderStatus, OrderType orderType) {
+    public Order(int id, User user, Book book, int fine, Date deadline, OrderStatus orderStatus, OrderType orderType) {
         this.id = id;
         this.user = user;
         this.book = book;
-        this.bookAmount = bookAmount;
         this.fine = fine;
         this.deadline = deadline;
         this.orderStatus = orderStatus;
@@ -46,14 +44,6 @@ public class Order {
 
     public void setBook(Book book) {
         this.book = book;
-    }
-
-    public int getBookAmount() {
-        return bookAmount;
-    }
-
-    public void setBookAmount(int bookAmount) {
-        this.bookAmount = bookAmount;
     }
 
     public int getFine() {
@@ -94,7 +84,6 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return id == order.id &&
-                bookAmount == order.bookAmount &&
                 fine == order.fine &&
                 Objects.equals(user, order.user) &&
                 Objects.equals(deadline, order.deadline) &&
@@ -104,7 +93,7 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, bookAmount, fine, deadline, orderStatus, orderType);
+        return Objects.hash(id, user, fine, deadline, orderStatus, orderType);
     }
 
     @Override
@@ -113,7 +102,6 @@ public class Order {
                 "id=" + id +
                 ", user=" + user +
                 ", book=" + book +
-                ", bookAmount=" + bookAmount +
                 ", fine=" + fine +
                 ", deadline=" + deadline +
                 ", orderStatus=" + orderStatus +

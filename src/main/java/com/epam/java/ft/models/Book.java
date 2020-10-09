@@ -29,11 +29,11 @@ public class Book {
         this.id = id;
     }
 
-    public String getTitle() {
+    public String getTitle(String locale) {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title, String locale) {
         this.title = title;
     }
 
@@ -83,14 +83,17 @@ public class Book {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
         return id == book.id &&
+                price == book.price &&
+                fine == book.fine &&
                 Objects.equals(title, book.title) &&
+                Objects.equals(bookSrc, book.bookSrc) &&
                 Objects.equals(edition, book.edition) &&
                 Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, edition, author);
+        return Objects.hash(id, title, bookSrc, price, fine, edition, author);
     }
 
     @Override
@@ -98,6 +101,9 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", bookSrc='" + bookSrc + '\'' +
+                ", price=" + price +
+                ", fine=" + fine +
                 ", edition=" + edition +
                 ", author=" + author +
                 '}';

@@ -10,19 +10,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-;
 
 public class AuthorDao {
     public static Logger logger = Logger.getLogger("AuthorDao");
 
-    public static List<Author> getAuthors(Connection connection) {
+    public static List<Author> getAuthors(Connection connection, String lang) {
         ArrayList<Author> authors = new ArrayList<>();
-        String getAuthorsQuery = "SELECT *\n" +
-                "FROM authors ORDER BY id";
-        try (Statement getBooksStatement = connection.createStatement()) {
-            getAuthorsList(authors, getBooksStatement.executeQuery(getAuthorsQuery));
+        String getAuthorsQuery = "SELECT id, full_name_" + lang + " as full_name FROM authors ORDER BY full_name_" + lang;
+        try (Statement getAuthorsStatement = connection.createStatement()) {
+            getAuthorsList(authors, getAuthorsStatement.executeQuery(getAuthorsQuery));
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            e.printStackTrace();
         }
         return authors;
     }

@@ -9,7 +9,7 @@ public class OrderTypeTest {
 
     @Before
     public void setUp() {
-        orderType = new OrderType(1, "home");
+        orderType = new OrderType(1, "Subscription");
     }
 
     @Test
@@ -27,13 +27,13 @@ public class OrderTypeTest {
 
     @Test
     public void getTypeTest() {
-        String expected = "home";
+        String expected = "Subscription";
         Assert.assertEquals(expected, orderType.getType());
     }
 
     @Test
     public void setTypeTest() {
-        String expected = "reading hall";
+        String expected = "Reading hall";
         orderType.setType(expected);
         Assert.assertEquals(expected, orderType.getType());
     }
@@ -45,7 +45,7 @@ public class OrderTypeTest {
 
     @Test
     public void equalsTest() {
-        OrderType expected = new OrderType(1, "home");
+        OrderType expected = new OrderType(1, "Subscription");
         Assert.assertEquals(expected, orderType);
     }
 }

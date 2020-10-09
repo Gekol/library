@@ -18,15 +18,27 @@
         <servlet-name>profilePage</servlet-name>
         <servlet-class>com.epam.java.ft.servlets.ProfilePageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>logoutPage</servlet-name>
+        <servlet-class>com.epam.java.ft.servlets.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>mainPage</servlet-name>
-        <url-pattern>/main</url-pattern>
+        <url-pattern></url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>profilePage</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logoutPage</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>view/index.html</welcome-file>
+        <welcome-file>view/index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

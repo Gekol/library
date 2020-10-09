@@ -1,17 +1,20 @@
 CREATE TABLE IF NOT EXISTS authors
 (
-    id        VARCHAR(100) PRIMARY KEY,
-    full_name VARCHAR(50)
+    id           VARCHAR(100) PRIMARY KEY,
+    full_name_en VARCHAR(50),
+    full_name_ru VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS userTypes
 (
-    id   INTEGER PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(50)
+    id      INTEGER PRIMARY KEY AUTO_INCREMENT,
+    type_en VARCHAR(50),
+    type_ru VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS userStatuses
 (
-    id     INTEGER PRIMARY KEY AUTO_INCREMENT,
-    status VARCHAR(50)
+    id        INTEGER PRIMARY KEY AUTO_INCREMENT,
+    status_en VARCHAR(50),
+    status_ru VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS subscriptions
@@ -22,13 +25,15 @@ CREATE TABLE IF NOT EXISTS subscriptions
 );
 CREATE TABLE IF NOT EXISTS orderTypes
 (
-    id   INTEGER PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(50)
+    id      INTEGER PRIMARY KEY AUTO_INCREMENT,
+    type_en VARCHAR(50),
+    type_ru VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS orderStatuses
 (
-    id     INTEGER PRIMARY KEY AUTO_INCREMENT,
-    status VARCHAR(50)
+    id        INTEGER PRIMARY KEY AUTO_INCREMENT,
+    status_en VARCHAR(50),
+    status_ru VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS users
 (
@@ -44,7 +49,8 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS books
 (
     id         INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title      VARCHAR(100),
+    title_en   VARCHAR(100),
+    title_ru   VARCHAR(100),
     book_src   VARCHAR(100),
     price      INTEGER,
     fine       INTEGER,
@@ -54,9 +60,10 @@ CREATE TABLE IF NOT EXISTS books
 
 CREATE TABLE IF NOT EXISTS editions
 (
-    id    INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(50),
-    date  DATE
+    id       INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title_en VARCHAR(50),
+    title_ru VARCHAR(50),
+    date     DATE
 );
 
 CREATE TABLE IF NOT EXISTS catalog
@@ -70,7 +77,6 @@ CREATE TABLE IF NOT EXISTS orders
     id              INTEGER PRIMARY KEY AUTO_INCREMENT,
     user_id         INTEGER REFERENCES users (id) ON DELETE CASCADE,
     book_id         INTEGER REFERENCES books (id) ON DELETE CASCADE,
-    book_amount     INTEGER,
     fine            INTEGER,
     deadline        DATE NULL,
     order_status_id integer references orderStatuses (id) ON DELETE CASCADE,

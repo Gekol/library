@@ -8,8 +8,8 @@ import java.sql.Date;
 
 public class UserTest {
     User user;
-    UserType userType = new UserType(1, "user");
-    UserStatus userStatus = new UserStatus(1, "active");
+    UserType userType = new UserType(1, "User");
+    UserStatus userStatus = new UserStatus(1, "Active");
     Subscription subscription = new Subscription(1, new Date(1000), new Date(2000));
 
     @Before
@@ -90,7 +90,7 @@ public class UserTest {
 
     @Test
     public void setUserStatusTest() {
-        UserStatus expected = new UserStatus(1, "blocked");
+        UserStatus expected = new UserStatus(1, "Blocked");
         user.setUserStatus(expected);
         Assert.assertEquals(expected, user.getUserStatus());
     }
@@ -102,7 +102,7 @@ public class UserTest {
 
     @Test
     public void setUserTypeTest() {
-        UserType expected = new UserType(1, "librarian");
+        UserType expected = new UserType(1, "Librarian");
         user.setUserType(expected);
         Assert.assertEquals(expected, user.getUserType());
     }

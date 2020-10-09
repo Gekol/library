@@ -9,7 +9,7 @@ public class UserStatusTest {
     
     @Before
     public void setUp() {
-        userStatus = new UserStatus(1, "active");
+        userStatus = new UserStatus(1, "Active");
     }
 
     @Test
@@ -27,7 +27,7 @@ public class UserStatusTest {
 
     @Test
     public void getStatusTest() {
-        String expected = "active";
+        String expected = "Active";
         Assert.assertEquals(expected, userStatus.getStatus());
     }
 

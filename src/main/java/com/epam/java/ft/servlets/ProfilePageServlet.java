@@ -20,6 +20,10 @@ public class ProfilePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/profile.jsp");
-        view.forward(request, response);
+        if (request.getSession(true).getAttribute("loggedIn").equals("true")) {
+            view.forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath());
+        }
     }
 }

@@ -9,16 +9,16 @@ import java.sql.Date;
 public class OrderTest {
     Order order = null;
     User user = new User(1, "Georgii", "Sokolovskyi", "george@example.com",
-            "1111", new UserType(1, "user"), new UserStatus(1, "active"),
+            "1111", new UserType(1, "User"), new UserStatus(1, "Active"),
             new Subscription(1, new Date(1000), new Date(2000)));
     Book book = new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
             new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling"));
-    OrderStatus orderStatus = new OrderStatus(1, "new");
-    OrderType orderType = new OrderType(1, "home");
+    OrderStatus orderStatus = new OrderStatus(1, "New");
+    OrderType orderType = new OrderType(1, "Subscription");
 
     @Before
     public void setUp() {
-        order = new Order(1, user, book, 1, 0, new Date(1000), orderStatus, orderType);
+        order = new Order(1, user, book, 1, new Date(1000), orderStatus, orderType);
     }
 
     @Test
@@ -41,29 +41,16 @@ public class OrderTest {
 
     @Test
     public void setUserTest() {
-        User expected = new User(1, "Heorhii", "Sokolovskyi", "george@example.com",
-                "1111", new UserType(1, "user"), new UserStatus(1, "active"),
+        User expected = new User(1, "Georgii", "Sokolovskyi", "george@example.com",
+                "1111", new UserType(1, "User"), new UserStatus(1, "Active"),
                 new Subscription(1, new Date(1000), new Date(2000)));
         order.setUser(expected);
         Assert.assertEquals(expected, order.getUser());
     }
 
     @Test
-    public void getBookAmountTest() {
-        int expected = 1;
-        Assert.assertEquals(expected, order.getBookAmount());
-    }
-
-    @Test
-    public void setBookAmountTest() {
-        int expected = 2;
-        order.setBookAmount(expected);
-        Assert.assertEquals(expected, order.getBookAmount());
-    }
-
-    @Test
     public void getFineTest() {
-        int expected = 0;
+        int expected = 1;
         Assert.assertEquals(expected, order.getFine());
     }
 
@@ -94,7 +81,7 @@ public class OrderTest {
 
     @Test
     public void setOrderStatusTest() {
-        OrderStatus expected = new OrderStatus(1, "done");
+        OrderStatus expected = new OrderStatus(1, "Done");
         order.setOrderStatus(expected);
         Assert.assertEquals(expected, order.getOrderStatus());
     }
@@ -106,7 +93,7 @@ public class OrderTest {
 
     @Test
     public void setOrderTypeTest() {
-        OrderType expected = new OrderType(1, "reading hall");
+        OrderType expected = new OrderType(1, "Reading hall");
         order.setOrderType(expected);
         Assert.assertEquals(expected, order.getOrderType());
     }
@@ -118,9 +105,7 @@ public class OrderTest {
 
     @Test
     public void equalsTest() {
-        Order expected = new Order(1, user, new Book(1, "Harry Potter and the philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
-                new Edition(1, "Edition 1", new java.sql.Date(120, 0, 1)), new Author("rowling", "Joanne Rowling")),
-                1, 0, new Date(1000), orderStatus, orderType);
+        Order expected = new Order(1, user, book, 1, new Date(1000), orderStatus, orderType);
         Assert.assertEquals(expected, order);
     }
 }

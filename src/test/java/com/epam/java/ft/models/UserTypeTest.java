@@ -9,7 +9,7 @@ public class UserTypeTest {
 
     @Before
     public void setUp() {
-        userType = new UserType(1, "user");
+        userType = new UserType(1, "Librarian");
     }
 
     @Test
@@ -27,13 +27,13 @@ public class UserTypeTest {
 
     @Test
     public void getTypeTest() {
-        String expected = "user";
+        String expected = "Librarian";
         Assert.assertEquals(expected, userType.getType());
     }
 
     @Test
     public void setTypeTest() {
-        String expected = "librarian";
+        String expected = "User";
         userType.setType(expected);
         Assert.assertEquals(expected, userType.getType());
     }

@@ -10,12 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-;
-
 public class OrderDao {
     public static Logger logger = Logger.getLogger("OrderDao");
 
-    public static List<Order> getOrders(Connection connection) {
+    public static List<Order> getOrders(Connection connection, String lang) {
         ArrayList<Order> orders = new ArrayList<>();
         String getOrdersQuery = "SELECT *" +
                 "FROM orders o\n" +
@@ -30,9 +28,10 @@ public class OrderDao {
             while (res.next()) {
                 Order order = new Order(res.getInt("o.id"), new User(res.getInt("u.id"), res.getString("first_name"), res.getString("last_name"),
                         res.getString("email"), res.getString("u.user_password"), null, null, null),
-                        new Book(res.getInt("b.id"), res.getString("b.title"), res.getString("b.book_src"), res.getInt("b.price"), res.getInt("b.fine"), new Edition(res.getInt("e.id"), res.getString("e.title"), res.getDate("e.date")),
-                                new Author(res.getString("a.id"), res.getString("a.full_name"))),
-                        res.getInt("o.book_amount"), res.getInt("o.fine"), res.getDate("o.deadline"), null, null);
+                        new Book(res.getInt("b.id"), res.getString("b.title_" + lang), res.getString("b.book_src"), res.getInt("b.price"), res.getInt("b.fine"),
+                                new Edition(res.getInt("e.id"), res.getString("e.title_" + lang), res.getDate("e.date")),
+                                new Author(res.getString("a.id"), res.getString("a.full_name_" + lang))),
+                        res.getInt("o.fine"), res.getDate("o.deadline"), null, null);
                 orders.add(order);
             }
         } catch (SQLException e) {
