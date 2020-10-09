@@ -86,10 +86,10 @@ public class MainPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String language = request.getParameter("language");
-        List<Author> authors;
         if (language == null) {
             language = "ru";
         }
+        List<Author> authors;
         request.setAttribute("language", language);
         authors = AuthorDao.getAuthors(connection, language);
 
@@ -130,10 +130,13 @@ public class MainPageServlet extends HttpServlet {
         view.forward(request, response);
     }
 
-    private void logIn(User user, HttpServletRequest request) {
+    private void logIn(User user, HttpServletRequest request, String language) {
         HttpSession session = request.getSession();
         session.setAttribute("loggedIn", "true");
+        session.setAttribute("id", user.getId());
         session.setAttribute("email", user.getEmail());
+        session.setAttribute("subscription", user.getSubscription());
+        session.setAttribute("orders", OrderDao.getOrderByUser(connection, user.getId(), language));
         String name = user.getFirstName();
         String surname = user.getLastName();
         String username;
@@ -147,12 +150,11 @@ public class MainPageServlet extends HttpServlet {
         session.setAttribute("userName", username);
     }
 
-    private User addNewUser(Map<String, String[]> parameters, String language) {
+    private int addNewUser(Map<String, String[]> parameters, String language) {
         User newUser = new User(1, parameters.get("first_name")[0], parameters.get("last_name")[0],
                 parameters.get("email")[0], parameters.get("password")[0], UserTypeDao.getType(connection, types.get("user_" + language), language),
                 UserStatusDao.getStatus(connection, statuses.get("active_" + language), language), null);
-        UserDao.insertUser(connection, newUser);
-        return newUser;
+        return UserDao.insertUser(connection, newUser);
     }
 
     @Override
@@ -163,19 +165,15 @@ public class MainPageServlet extends HttpServlet {
         if (language == null) {
             language = "ru";
         }
-        User user;
-        if (request.getParameterMap().containsKey("first_name")) {
-            user = addNewUser(request.getParameterMap(), language);
-            logIn(user, request);
+        if (request.getParameterMap().containsKey("first_name") && addNewUser(request.getParameterMap(), language) != 1) {
+            response.sendRedirect(request.getContextPath());
+        }
+        User user = UserDao.loginUser(connection, email, password, language);
+        if (user != null) {
+            logIn(user, request, language);
             response.sendRedirect(request.getContextPath() + "/profile");
         } else {
-            user = UserDao.loginUser(connection, email, password, language);
-            if (user != null) {
-                logIn(user, request);
-                response.sendRedirect(request.getContextPath() + "/profile");
-            } else {
-                response.sendRedirect(request.getContextPath());
-            }
+            response.sendRedirect(request.getContextPath());
         }
     }
 }

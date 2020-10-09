@@ -22,15 +22,15 @@ public class UserDao {
                 (res.getInt("s.id") != 0) ? new Subscription(res.getInt("s.id"), res.getDate("given"), res.getDate("expires")) : null);
     }
 
-    public static User getUser(Connection connection, int id, String language) {
+    public static User getUser(Connection connection, String email, String language) {
         String getUserQuery = "SELECT * " +
                 "FROM users u\n" +
                 "         LEFT JOIN subscriptions s on u.subscription_id = s.id\n" +
                 "         JOIN userStatuses us ON u.user_status_id = us.id\n" +
                 "         JOIN userTypes ut ON u.user_type_id = ut.id " +
-                "WHERE u.id=?;";
+                "WHERE u.email=?;";
         try (PreparedStatement getUserStatement = connection.prepareStatement(getUserQuery)) {
-            getUserStatement.setInt(1, id);
+            getUserStatement.setString(1, email);
             ResultSet res = getUserStatement.executeQuery();
             if (res.next()) {
                 return getUser(res, language);
@@ -104,6 +104,31 @@ public class UserDao {
         String getTypeIdQuery = "SELECT id FROM userTypes WHERE type_" + language + "=?";
         String updateTypeQuery = "UPDATE users SET user_type_id=? WHERE id=?";
         return changeUserMetaData(connection, id, type, getTypeIdQuery, updateTypeQuery);
+    }
+
+    public static int updateUserSubscription(Connection connection, int userId, int subscriptionId) {
+        String updateSubscriptionQuery = "UPDATE users SET subscription_id=? WHERE id=?";
+        try (PreparedStatement updateSubscriptionStatement = connection.prepareStatement(updateSubscriptionQuery)) {
+            updateSubscriptionStatement.setInt(1, subscriptionId);
+            updateSubscriptionStatement.setInt(2, userId);
+            return updateSubscriptionStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+    }
+
+    public static int getRowsCount(Connection connection) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) as count FROM users");
+            if (resultSet.next()) {
+                return resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private static int changeUserMetaData(Connection connection, int id, String type, String getTypeIdQuery, String updateTypeQuery) {

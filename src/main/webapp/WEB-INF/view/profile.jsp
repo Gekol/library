@@ -1,3 +1,4 @@
+<%@ page import="com.epam.java.ft.models.Subscription" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,6 +16,7 @@
 <%
     String email = (String) session.getAttribute("email");
     String userName = (String) session.getAttribute("userName");
+    Subscription subscription = (Subscription) session.getAttribute("subscription");
 %>
 <header class="header-block">
     <div class="menu-content">
@@ -29,12 +31,6 @@
                         </label>
                     </form>
                 </div>
-            </div>
-            <div class="menu">
-                <div class="cart">
-                    <a href="carts">Корзина: 0</a>
-                </div>
-                <a href="form-order" class="order">Оформить заказ</a>
             </div>
         </div>
     </div>
@@ -98,7 +94,16 @@
 
 <main class="catalog-main main-content">
     <section class="goods container">
-        <h1><% out.print(userName); %></h1>
+        <h1 class="userName">
+            <div><% out.print(userName); %></div>
+            <div><%
+                if (subscription == null) {
+                    out.print("<a href=\"?createSubscription=true\" class='create-subscription'>У вас нет абонемента! Вы можете получить его прямо сейчас!</a>");
+                } else {
+                    out.print("<span class='create-subscription'>Абонемент действует с " + subscription.getGiven() + " по " + subscription.getExpires() + "</span>");
+                }
+            %></div>
+        </h1>
         <div>
             <div>Электронная почта: <% out.print(email); %></div>
         </div>

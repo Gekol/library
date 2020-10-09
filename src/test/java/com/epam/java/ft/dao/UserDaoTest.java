@@ -30,8 +30,8 @@ public class UserDaoTest {
     }
 
     @Test
-    public void getUserByIdTest() {
-        User user = UserDao.getUser(connection, 1, "en");
+    public void getUserByEmailTest() {
+        User user = UserDao.getUser(connection, "vader@example.com", "en");
         User expected = new User(1, "Darth", "Vader", "vader@example.com", "1111",
                 new UserType(3, "Admin"), new UserStatus(1, "Active"), null);
         Assert.assertEquals(expected, user);

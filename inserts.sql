@@ -165,7 +165,7 @@ INSERT INTO orderStatuses(status_en, status_ru)
 VALUES ('Done', 'Выполнено');
 
 # Orders inserts
-INSERT INTO orders(user_id, book_id, order_status_id, order_type_id)
-VALUES (1, 1, 1, 1);
-INSERT INTO orders(user_id, book_id, order_status_id, order_type_id)
-VALUES (3, 2, 2, 1);
+INSERT INTO orders(user_id, book_id, fine, deadline, order_status_id, order_type_id)
+VALUES (1, 1, 0, '2020-10-15', 1, 1);
+INSERT INTO orders(user_id, book_id, fine, deadline, order_status_id, order_type_id)
+VALUES (3, 2, 0, '2020-10-15', 2, 1);

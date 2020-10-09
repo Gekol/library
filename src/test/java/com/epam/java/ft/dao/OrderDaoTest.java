@@ -32,7 +32,7 @@ public class OrderDaoTest {
 
     @Test
     public void getOrdersTest() {
-        List<Order> orders = OrderDao.getOrders(connection, "en");
+        List<Order> orders = OrderDao.getAllOrders(connection, "en");
         List<Order> expected = new ArrayList<Order>() {
             {
                 add(new Order(1,

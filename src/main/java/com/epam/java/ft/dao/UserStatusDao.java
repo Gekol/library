@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-;
-
 public class UserStatusDao {
     private static Logger logger = Logger.getLogger("UserDao");
 

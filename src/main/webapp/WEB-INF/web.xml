@@ -34,6 +34,15 @@
         <servlet-name>logoutPage</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+    <filter>
+        <filter-name>registrationFilter</filter-name>
+        <filter-class>com.epam.java.ft.filters.RegistrationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>registrationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <servlet-name>mainPage</servlet-name>
+    </filter-mapping>
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
