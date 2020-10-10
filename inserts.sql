@@ -149,6 +149,58 @@ INSERT INTO catalog(book_id, book_amount)
 VALUES (1, 5);
 INSERT INTO catalog(book_id, book_amount)
 VALUES (2, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (3, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (4, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (5, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (6, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (7, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (8, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (9, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (10, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (11, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (12, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (13, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (14, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (15, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (16, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (17, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (18, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (19, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (20, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (21, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (22, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (23, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (24, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (25, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (26, 8);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (27, 5);
+INSERT INTO catalog(book_id, book_amount)
+VALUES (28, 8);
 
 # OrderTypes inserts
 INSERT INTO orderTypes(type_en, type_ru)

@@ -34,14 +34,14 @@ public class BookTest {
     @Test
     public void getTitleTest() {
         String expected = "Harry Potter and the philosopher's stone";
-        Assert.assertEquals(expected, book.getTitle(""));
+        Assert.assertEquals(expected, book.getTitle());
     }
 
     @Test
     public void setTitleTest() {
         String expected = "Harry Potter and the chamber of secrets";
-        book.setTitle(expected, "");
-        Assert.assertEquals(expected, book.getTitle(""));
+        book.setTitle(expected);
+        Assert.assertEquals(expected, book.getTitle());
     }
 
     @Test

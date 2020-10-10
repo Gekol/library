@@ -14,25 +14,13 @@
         <servlet-name>mainPage</servlet-name>
         <servlet-class>com.epam.java.ft.servlets.MainPageServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>profilePage</servlet-name>
-        <servlet-class>com.epam.java.ft.servlets.ProfilePageServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>logoutPage</servlet-name>
-        <servlet-class>com.epam.java.ft.servlets.LogoutServlet</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>mainPage</servlet-name>
-        <url-pattern></url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>profilePage</servlet-name>
-        <url-pattern>/profile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>logoutPage</servlet-name>
-        <url-pattern>/logout</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>registrationFilter</filter-name>

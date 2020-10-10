@@ -29,11 +29,11 @@ public class Book {
         this.id = id;
     }
 
-    public String getTitle(String locale) {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title, String locale) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

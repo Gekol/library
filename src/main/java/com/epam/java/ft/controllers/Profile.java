@@ -1,15 +1,13 @@
-package com.epam.java.ft.servlets;
+package com.epam.java.ft.controllers;
 
-import com.epam.java.ft.dao.ConnectionPool;
+import com.epam.java.ft.dao.OrderDao;
 import com.epam.java.ft.dao.SubscriptionDao;
 import com.epam.java.ft.dao.UserDao;
 import com.epam.java.ft.models.Subscription;
 import com.epam.java.ft.models.User;
-import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,14 +16,15 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.util.Calendar;
 
+public class Profile {
 
-public class ProfilePageServlet extends HttpServlet {
-    public static Logger logger = Logger.getLogger("ProfilePageServlet");
-    Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/library?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
-            "root", "1111").getConnectionWithDriverManager();
+    private static Connection connection;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public static void setConnection(Connection connection) {
+        Profile.connection = connection;
+    }
+
+    public static void get(HttpServletRequest request, HttpServletResponse response, String language) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/profile.jsp");
         HttpSession session = request.getSession(true);
         if (session.getAttribute("loggedIn").equals("true")) {
@@ -38,19 +37,17 @@ public class ProfilePageServlet extends HttpServlet {
                 int subscriptionId = SubscriptionDao.getRowsCount(connection);
                 UserDao.updateUserSubscription(connection, userId, subscriptionId);
             }
-            String language = request.getParameter("language");
-            if (language == null) {
-                language = "ru";
-            }
             User user = UserDao.getUser(connection, (String) session.getAttribute("email"), language);
-            session.setAttribute("subscription", user.getSubscription());
+            request.setAttribute("subscription", user.getSubscription());
+            request.setAttribute("orders", OrderDao.getOrderByUser(connection, user.getId(), language));
+            request.setAttribute("fine", OrderDao.getFinesSumByUser(connection, user.getId()));
             view.forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath());
         }
     }
 
-    private Date addDays(Date day) {
+    private static Date addDays(Date day) {
         Calendar c = Calendar.getInstance();
         c.setTime(day);
         c.add(Calendar.DATE, 30);

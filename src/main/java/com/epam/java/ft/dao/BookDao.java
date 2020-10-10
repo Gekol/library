@@ -51,8 +51,8 @@ public class BookDao {
         String insertBookQuery = "INSERT INTO books(title_en, title_ru, author_id, edition_id) \n" +
                 "VALUES (?, ?, ?, ?);";
         try (PreparedStatement insertBookStatement = connection.prepareStatement(insertBookQuery)) {
-            insertBookStatement.setString(1, book.getTitle(""));
-            insertBookStatement.setString(2, book.getTitle("ru"));
+            insertBookStatement.setString(1, book.getTitle());
+            insertBookStatement.setString(2, book.getTitle());
             insertBookStatement.setString(3, book.getAuthor().getId());
             insertBookStatement.setInt(4, book.getEdition().getId());
             return insertBookStatement.executeUpdate();
@@ -76,8 +76,8 @@ public class BookDao {
     public static int updateBook(Connection connection, Book book, String language) {
         String deleteBookQuery = "UPDATE books SET title" + language + "=?, author_id=?, edition_id=? WHERE id=?";
         try (PreparedStatement deleteBookStatement = connection.prepareStatement(deleteBookQuery)) {
-            deleteBookStatement.setString(1, book.getTitle(""));
-            deleteBookStatement.setString(1, book.getTitle(""));
+            deleteBookStatement.setString(1, book.getTitle());
+            deleteBookStatement.setString(1, book.getTitle());
             deleteBookStatement.setString(3, book.getAuthor().getId());
             deleteBookStatement.setInt(4, book.getEdition().getId());
             deleteBookStatement.setInt(5, book.getId());

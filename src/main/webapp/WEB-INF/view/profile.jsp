@@ -1,22 +1,22 @@
+<%@ page import="com.epam.java.ft.models.Book" %>
+<%@ page import="com.epam.java.ft.models.Order" %>
 <%@ page import="com.epam.java.ft.models.Subscription" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ru">
 
-<head>
-    <meta charset="utf-8">
-    <title>Библиотека "Книжный червь"</title>
-    <link rel="stylesheet" href="<c:url value='/resources/css/normalize.css' />">
-    <link rel="stylesheet" href="<c:url value='/resources/css/general.css' />">
-</head>
+<jsp:include page="../../head.jsp"></jsp:include>
 
 <body>
 <%
     String email = (String) session.getAttribute("email");
     String userName = (String) session.getAttribute("userName");
-    Subscription subscription = (Subscription) session.getAttribute("subscription");
+    Subscription subscription = (Subscription) request.getAttribute("subscription");
+    List<Order> orders = (List<Order>) request.getAttribute("orders");
+    int fine = (Integer) request.getAttribute("fine");
 %>
 <header class="header-block">
     <div class="menu-content">
@@ -106,61 +106,27 @@
         </h1>
         <div>
             <div>Электронная почта: <% out.print(email); %></div>
+            <div>Общая сумма штрафа: <% out.print(fine); %></div>
         </div>
+        <ul class="books-list orders-list">
+            <%
+                for (Order order : orders) {
+                    Book book = order.getBook();
+                    out.println("<li class=\"good\">");
+                    out.println("<div class=\"book\"><img src=\"" + request.getContextPath() + "/resources/img/books/" + book.getBookSrc() + "\" width=\"144\" height=\"225\" alt=\"" + order.getBook().getTitle() + "\" /></div>");
+                    out.println("<div class=\"buy\">");
+                    out.println((order.getFine() > 0) ? "<a href=\"fine/?id=" + order.getId() + "\">Выплатить штраф</a>" : "<span>Срок не прошёл!!!</span>");
+                    out.println("</div>");
+                    out.println("<b>" + book.getTitle() + "</b>");
+                    out.println("<p class=\"author\">" + ((order.getDeadline() == null) ? "Вы ещё не забрали книгу!!!" : order.getDeadline().toString()) + "</p>");
+                    out.println("<p class=\"current-price\">Штраф: " + order.getFine() + "</p>");
+                    out.println("</li>");
+                }
+            %>
+        </ul>
     </section>
 </main>
-<footer class="downside">
-    <div class="downside-navigation-content">
-        <div class="downside-navigation container">
-            <div class="address">
-                <a href="index.jsp" class="title big">Книжный червь</a>
-                <p class="address-info">г. Днепр, ул. В. Жуковского, д. 21A</p>
-                <p class="phone-number"><a href="tel:78125550555">+380 (67) 617-17-10</a></p>
-            </div>
-            <div class="links">
-                <ul class="white-links">
-                    <li><a href="<%out.print(request.getContextPath());%>">Компания</a></li>
-                    <li><a href="<%out.print(request.getContextPath());%>">Новости</a></li>
-                    <li><a href="<%out.print(request.getContextPath());%>">Каталог</a></li>
-                    <li><a href="<%out.print(request.getContextPath());%>">Доставка</a></li>
-                    <li><a href="<%out.print(request.getContextPath());%>">Контакты</a></li>
-                </ul>
-                <ul class="yellow-links">
-                    <li><a href="<%out.print(request.getContextPath());%>">Материалы</a></li>
-                    <li><a href="<%out.print(request.getContextPath());%>">Техника</a></li>
-                    <li><a href="<%out.print(request.getContextPath());%>">Инструмент</a></li>
-                    <li><a href="">Спецпредложения</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="downside-contacts-content">
-        <div class="downside-contacts container">
-            <div class="rights-reserved">
-                <p>© 2010–2020 Библиотека «Книжный червь»</p>
-                <p>Все права защищены</p>
-            </div>
-            <div class="networks">
-                <div class="network" tabindex="0">
-                    <a href="vk.com" class="icon vk"></a>
-                </div>
-                <div class="network" tabindex="0">
-                    <a href="facebook.com" class="icon fb"></a>
-                </div>
-                <div class="network" tabindex="0">
-                    <a href="instagram.com" class="icon insta"></a>
-                </div>
-            </div>
-            <div class="feedback">
-                <p>Обратная связь:<a href="https://mail@htmlacademy.ru" class="yellow-link"
-                                     tabindex="0">mail@worm.ru</a></p>
-                <p>Разработано — <a href="https://htmlacademy.ru/intensive/htmlcss"
-                                    class="yellow-link">hsokolovskyi.com</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
+<jsp:include page="../../footer.jsp"></jsp:include>
 <section class="item-added-block visually-hidden">
     <div class="item-added">
         <div class="message-block">

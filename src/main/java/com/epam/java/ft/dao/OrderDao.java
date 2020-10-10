@@ -28,23 +28,34 @@ public class OrderDao {
         return orders;
     }
 
-    public static List<Order> getOrderByUser(Connection connection, int id, String lang) {
+    public static List<Order> getOrderByUser(Connection connection, int userId, String language) {
         ArrayList<Order> orders = new ArrayList<>();
-        String getOrdersQuery = "SELECT *" +
+        String getOrdersQuery = "SELECT * " +
                 "FROM orders o\n" +
                 "         JOIN users u on o.user_id = u.id\n" +
                 "         JOIN books b ON b.id = o.book_id\n" +
                 "         JOIN editions e on b.edition_id = e.id\n" +
                 "         JOIN authors a on b.author_id = a.id\n" +
                 "         JOIN orderTypes ot ON o.order_type_id = ot.id\n" +
-                " WHERE u.id=? ORDER BY o.id;";
+                " WHERE o.user_id=? AND o.order_type_id=1 ORDER BY o.id;";
         try (PreparedStatement getOrdersStatement = connection.prepareStatement(getOrdersQuery)) {
-            getOrdersStatement.setInt(1, id);
-            getOrders(lang, orders, getOrdersStatement.executeQuery(getOrdersQuery));
+            getOrdersStatement.setInt(1, userId);
+            getOrders(language, orders, getOrdersStatement.executeQuery());
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
         return orders;
+    }
+
+    public static int getFinesSumByUser(Connection connection, int userId) {
+        String getFinesSumQuery = "SELECT SUM(fine) as sum FROM orders o WHERE o.user_id=?";
+        try (PreparedStatement getFinesSumStatement = connection.prepareStatement(getFinesSumQuery)) {
+            getFinesSumStatement.setInt(1, userId);
+            return getFinesSumStatement.executeQuery().getInt("sum");
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
     }
 
     private static void getOrders(String lang, ArrayList<Order> orders, ResultSet resultSet) throws SQLException {
@@ -56,6 +67,18 @@ public class OrderDao {
                             new Author(resultSet.getString("a.id"), resultSet.getString("a.full_name_" + lang))),
                     resultSet.getInt("o.fine"), resultSet.getDate("o.deadline"), null, null);
             orders.add(order);
+        }
+    }
+
+    public static void insertNewOrder(Connection connection, int userId, int bookId, int orderTypeId) {
+        String insertNewOrderQuery = "INSERT INTO orders(user_id, book_id, fine, deadline, order_status_id, order_type_id) VALUES (?, ?, 0, NULL, 1, ?)";
+        try (PreparedStatement insertNewOrderStatement = connection.prepareStatement(insertNewOrderQuery)) {
+            insertNewOrderStatement.setInt(1, userId);
+            insertNewOrderStatement.setInt(2, bookId);
+            insertNewOrderStatement.setInt(3, orderTypeId);
+            insertNewOrderStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
         }
     }
 }

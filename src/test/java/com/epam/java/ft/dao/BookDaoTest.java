@@ -51,7 +51,7 @@ public class BookDaoTest {
     @Test
     public void getOrderedByTitleTest() {
         List<Book> books = BookDao.getBooks(connection, "en");
-        books.sort(Comparator.comparing(book -> book.getTitle("en")));
+        books.sort(Comparator.comparing(book -> book.getTitle()));
         List<Book> expected = new ArrayList<Book>() {
             {
                 add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
