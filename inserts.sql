@@ -218,6 +218,6 @@ VALUES ('Done', 'Выполнено');
 
 # Orders inserts
 INSERT INTO orders(user_id, book_id, fine, deadline, order_status_id, order_type_id)
-VALUES (1, 1, 0, '2020-10-15', 1, 1);
+VALUES (1, 1, 0, '2020-10-9', 1, 1);
 INSERT INTO orders(user_id, book_id, fine, deadline, order_status_id, order_type_id)
 VALUES (3, 2, 0, '2020-10-15', 2, 1);

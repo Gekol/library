@@ -88,6 +88,21 @@ public class User {
         this.subscription = subscription;
     }
 
+    public String getUserName() {
+        String username;
+        if (!firstName.equals("") && !lastName.equals("")) {
+            username = firstName + " " + lastName;
+        } else if (!firstName.equals("")) {
+            username = firstName;
+        } else {
+            username = lastName;
+        }
+        if (username.equals("")) {
+            username = email;
+        }
+        return username;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

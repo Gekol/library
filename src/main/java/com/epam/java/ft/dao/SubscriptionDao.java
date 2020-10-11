@@ -8,11 +8,9 @@ import java.sql.*;
 ;
 
 public class SubscriptionDao {
-    public static Connection connection = ConnectionPool.getInstance("jdbc:mysql://localhost:3306/p8db?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8",
-            "root", "1111").getConnectionWithDriverManager();
     public static Logger logger = Logger.getLogger("UserDao");
 
-    public static int createSubscription(Subscription subscription) {
+    public static int createSubscription(Connection connection, Subscription subscription) {
         String insertSubscriptionQuery = "INSERT INTO subscriptions(given, expires) VALUES (?, ?);";
         try (PreparedStatement insertBookStatement = connection.prepareStatement(insertSubscriptionQuery)) {
             insertBookStatement.setDate(1, subscription.getGiven());

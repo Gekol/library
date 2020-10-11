@@ -140,20 +140,12 @@ public class Main {
         HttpSession session = request.getSession();
         session.setAttribute("loggedIn", "true");
         session.setAttribute("id", user.getId());
+        session.setAttribute("type", user.getUserType().getId());
         session.setAttribute("email", user.getEmail());
         session.setAttribute("subscription", user.getSubscription());
-        session.setAttribute("orders", OrderDao.getOrderByUser(connection, user.getId(), language));
-        String name = user.getFirstName();
-        String surname = user.getLastName();
-        String username;
-        if (!name.equals("") && !surname.equals("")) {
-            username = name + " " + surname;
-        } else if (!name.equals("")) {
-            username = name;
-        } else {
-            username = surname;
-        }
-        session.setAttribute("userName", username);
+        session.setAttribute("userOrders", OrderDao.getOrderByUser(connection, user.getId(), language));
+
+        session.setAttribute("userName", user.getUserName());
     }
 
     private static int addNewUser(Map<String, String[]> parameters, String language) {
@@ -163,15 +155,12 @@ public class Main {
         return UserDao.insertUser(connection, newUser);
     }
 
-    public static void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void post(HttpServletRequest request, HttpServletResponse response, String language) throws IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String language = request.getParameter("language");
-        if (language == null) {
-            language = "ru";
-        }
         if (request.getParameterMap().containsKey("first_name") && addNewUser(request.getParameterMap(), language) != 1) {
             response.sendRedirect(request.getContextPath());
+            return;
         }
         User user = UserDao.loginUser(connection, email, password, language);
         if (user != null) {

@@ -18,24 +18,18 @@ public class Order {
         Order.connection = connection;
     }
 
-    public static String getLoggedIn(HttpSession session) {
-        String loggedIn = (String) session.getAttribute("loggedIn");
-        if (loggedIn == null) {
-            loggedIn = "false";
-        }
-        return loggedIn;
-    }
-
-    public static void addNewOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void addNewOrder(HttpServletRequest request, HttpServletResponse response, String loggedIn) throws IOException {
         HttpSession session = request.getSession();
 
-        if (getLoggedIn(session).equals("true")) {
+        if (loggedIn.equals("true")) {
             OrderType orderType = OrderTypeDao.getOrderType(connection, request.getParameter("orderType"), "en");
             int bookId;
             if (orderType != null) {
                 bookId = Integer.parseInt(request.getParameter("book_id"));
-                if (CatalogDao.checkBook(connection, bookId)) {
+                int bookCount = CatalogDao.checkBook(connection, bookId);
+                if (bookCount > 0) {
                     OrderDao.insertNewOrder(connection, (Integer) session.getAttribute("id"), bookId, orderType.getId());
+                    CatalogDao.changeBookAmount(connection, bookId, bookCount - 1);
                 }
             }
             response.sendRedirect(request.getContextPath() + "/profile");

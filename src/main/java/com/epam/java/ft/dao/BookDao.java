@@ -47,6 +47,20 @@ public class BookDao {
         }
     }
 
+    public static int getFine(Connection connection, int book_id) {
+        String getFineQuery = "SELECT price FROM books WHERE id=?";
+        try (PreparedStatement getFineStatement = connection.prepareStatement(getFineQuery)) {
+            getFineStatement.setInt(1, book_id);
+            ResultSet resultSet = getFineStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("price");
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+    }
+
     public static int insertBook(Connection connection, Book book) {
         String insertBookQuery = "INSERT INTO books(title_en, title_ru, author_id, edition_id) \n" +
                 "VALUES (?, ?, ?, ?);";

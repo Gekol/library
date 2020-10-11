@@ -24,18 +24,20 @@ public class Profile {
         Profile.connection = connection;
     }
 
-    public static void get(HttpServletRequest request, HttpServletResponse response, String language) throws ServletException, IOException {
+    public static void get(HttpServletRequest request, HttpServletResponse response, String loggedIn, String language) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/profile.jsp");
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("loggedIn").equals("true")) {
+        if (loggedIn.equals("true")) {
             String createSubscription = request.getParameter("createSubscription");
             if (createSubscription != null && createSubscription.equals("true")) {
-                Date todayDate = new java.sql.Date(new java.util.Date().getTime());
+                Date todayDate = new Date(Calendar.getInstance().getTimeInMillis());
                 Date futureDate = addDays(todayDate);
-                SubscriptionDao.createSubscription(new Subscription(1, todayDate, futureDate));
+                int added = SubscriptionDao.createSubscription(connection, new Subscription(1, todayDate, futureDate));
                 int userId = (Integer) request.getSession().getAttribute("id");
-                int subscriptionId = SubscriptionDao.getRowsCount(connection);
-                UserDao.updateUserSubscription(connection, userId, subscriptionId);
+                if (added == 1) {
+                    int subscriptionId = SubscriptionDao.getRowsCount(connection);
+                    UserDao.updateUserSubscription(connection, userId, subscriptionId);
+                }
             }
             User user = UserDao.getUser(connection, (String) session.getAttribute("email"), language);
             request.setAttribute("subscription", user.getSubscription());
@@ -47,7 +49,7 @@ public class Profile {
         }
     }
 
-    private static Date addDays(Date day) {
+    private static Date addDays(java.util.Date day) {
         Calendar c = Calendar.getInstance();
         c.setTime(day);
         c.add(Calendar.DATE, 30);
