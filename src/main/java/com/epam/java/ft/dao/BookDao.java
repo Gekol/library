@@ -48,12 +48,12 @@ public class BookDao {
     }
 
     public static int getFine(Connection connection, int book_id) {
-        String getFineQuery = "SELECT price FROM books WHERE id=?";
+        String getFineQuery = "SELECT fine FROM books WHERE id=?";
         try (PreparedStatement getFineStatement = connection.prepareStatement(getFineQuery)) {
             getFineStatement.setInt(1, book_id);
             ResultSet resultSet = getFineStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt("price");
+                return resultSet.getInt("fine");
             }
         } catch (SQLException e) {
             logger.info(e.getMessage());
@@ -61,14 +61,16 @@ public class BookDao {
         return 0;
     }
 
-    public static int insertBook(Connection connection, Book book) {
-        String insertBookQuery = "INSERT INTO books(title_en, title_ru, author_id, edition_id) \n" +
-                "VALUES (?, ?, ?, ?);";
+    public static int insertBook(Connection connection, String titleEn, String titleRu, int price, int fine, String authorId, int editionId) {
+        String insertBookQuery = "INSERT INTO books(title_en, title_ru, price, book_src, fine, author_id, edition_id) \n" +
+                "VALUES (?, ?, ?, 'default.png', ?, ?, ?);";
         try (PreparedStatement insertBookStatement = connection.prepareStatement(insertBookQuery)) {
-            insertBookStatement.setString(1, book.getTitle());
-            insertBookStatement.setString(2, book.getTitle());
-            insertBookStatement.setString(3, book.getAuthor().getId());
-            insertBookStatement.setInt(4, book.getEdition().getId());
+            insertBookStatement.setString(1, titleEn);
+            insertBookStatement.setString(2, titleRu);
+            insertBookStatement.setInt(3, price);
+            insertBookStatement.setInt(4, fine);
+            insertBookStatement.setString(5, authorId);
+            insertBookStatement.setInt(6, editionId);
             return insertBookStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info(e.getMessage());

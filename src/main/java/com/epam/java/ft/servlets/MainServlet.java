@@ -2,7 +2,6 @@ package com.epam.java.ft.servlets;
 
 import com.epam.java.ft.controllers.*;
 import com.epam.java.ft.dao.ConnectionPool;
-import com.epam.java.ft.dao.OrderDao;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -31,7 +30,7 @@ public class MainServlet extends HttpServlet {
     }
 
     public static boolean getLoggedIn(HttpServletRequest request) {
-        return request.getSession(false) != null && (Boolean) request.getSession().getAttribute("loggedIn");
+        return request.getSession(false) != null && request.getSession().getAttribute("loggedIn") != null && (Boolean) request.getSession().getAttribute("loggedIn");
     }
 
     @Override
@@ -39,7 +38,6 @@ public class MainServlet extends HttpServlet {
         String path = request.getServletPath();
         String language = getLanguage(request, response);
         boolean loggedIn = getLoggedIn(request);
-        OrderDao.checkForFine(connection, 1);
         switch (path) {
             case "/":
                 Main.setConnection(connection);
@@ -97,9 +95,14 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String path = request.getServletPath();
         String language = getLanguage(request, response);
+        boolean loggedIn = getLoggedIn(request);
         switch (path) {
             case "/":
                 Main.post(request, response, language);
+                break;
+            case "/profile":
+                Profile.post(connection, request, response, loggedIn);
+                break;
         }
     }
 }

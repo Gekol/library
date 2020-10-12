@@ -38,6 +38,7 @@ public class RegistrationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        servletRequest.setCharacterEncoding("UTF-8");
         if (((HttpServletRequest) servletRequest).getMethod().equals("POST")) {
             if (servletRequest.getParameter("first_name") == null || validatePost(servletRequest)) {
                 filterChain.doFilter(servletRequest, servletResponse);

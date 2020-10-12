@@ -1,6 +1,4 @@
-<%@ page import="com.epam.java.ft.models.Book" %>
-<%@ page import="com.epam.java.ft.models.Order" %>
-<%@ page import="com.epam.java.ft.models.Subscription" %>
+<%@ page import="com.epam.java.ft.models.*" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -10,6 +8,7 @@
 
 <head>
     <title>Профиль</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <jsp:include page="../../includeStyles.jsp"/>
 </head>
 
@@ -20,6 +19,8 @@
     Integer type = (Integer) session.getAttribute("type");
     Subscription subscription = (Subscription) request.getAttribute("subscription");
     List<Order> orders = (List<Order>) request.getAttribute("orders");
+    List<Author> authors = (List<Author>) request.getAttribute("authors");
+    List<Edition> editions = (List<Edition>) request.getAttribute("editions");
     int fine = (Integer) request.getAttribute("fine");
 %>
 
@@ -63,7 +64,8 @@
                         out.println("<a href=\"users\">Все пользователи</a>");
                     }
                     if (type == 3) {
-                        out.println("<a href=\"books\"></a>");
+                        out.println("<a href=\"add-book\" class=\"addBook\">Добавить новую книгу</a>");
+                        out.println("<a href=\"view-book\" class=\"addBook\">Все книги</a>");
                     }
                 %>
             </div>
@@ -87,7 +89,56 @@
     </section>
 </main>
 <jsp:include page="../../footer.jsp"/>
-<script src="resources/js/popups.js"></script>
+<section class="item-added-block book-form visually-hidden">
+    <div class="item-added">
+        <form action="<%out.print(request.getContextPath());%>/profile" method="post">
+            <h1 class="form__title">Добавить книгу</h1>
+            <div class="form__block">
+                <label for="title_en" class="form__label">Название на английском</label>
+                <input type="text" id="title_en" name="title_en" class="form__input" required>
+            </div>
+            <div class="form__block">
+                <label for="title_ru" class="form__label">Название на русском</label>
+                <input type="text" id="title_ru" name="title_ru" class="form__input" required>
+            </div>
+            <div class="form__block">
+                <label for="price" class="form__label">Цена за час времени</label>
+                <input type="number" name="price" id="price" placeholder="10" required>
+            </div>
+            <div class="form__block">
+                <label for="fine" class="form__label">Размер штрафа</label>
+                <input type="number" name="fine" id="fine" placeholder="10" required>
+            </div>
+            <%--            <div class="form__block">--%>
+            <%--                <label for="image">Изображение</label>--%>
+            <%--                <input type="text" name="image" id="image">--%>
+            <%--            </div>--%>
+            <div class="form__block">
+                <label for="author" class="form__label">Автор</label>
+                <select name="author" id="author" required>
+                    <% for (Author author : authors) {
+                        out.println("<option value=\"" + author.getId() + "\">" + author.getFullName() + "</option>");
+                    }
+                    %>
+                </select>
+            </div>
+            <div class="form__block">
+                <label for="edition" class="form__label">Название на русском</label>
+                <select name="edition" id="edition" required>
+                    <% for (Edition edition : editions) {
+                        out.println("<option value=\"" + edition.getId() + "\">" + edition.getTitle() + "</option>");
+                    }
+                    %>
+                </select>
+            </div>
+            <div class="form__block">
+                <input type="submit" value="Отправить" class="form__input form__input__submit">
+            </div>
+        </form>
+        <button class="modal-close" type="button" aria-label="Закрыть"></button>
+    </div>
+</section>
+<script src="<%=request.getContextPath()%>/resources/js/popups.js"></script>
 </body>
 
 </html>

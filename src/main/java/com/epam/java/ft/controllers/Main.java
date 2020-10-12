@@ -139,6 +139,7 @@ public class Main {
     private static void logIn(User user, HttpServletRequest request, String language) {
         HttpSession session = request.getSession();
         session.setAttribute("loggedIn", true);
+        OrderDao.checkForFine(connection, user.getId());
         session.setAttribute("id", user.getId());
         session.setAttribute("type", user.getUserType().getId());
         session.setAttribute("status", user.getUserStatus().getId());
