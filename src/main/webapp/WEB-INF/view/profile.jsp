@@ -65,7 +65,7 @@
                     }
                     if (type == 3) {
                         out.println("<a href=\"add-book\" class=\"addBook\">Добавить новую книгу</a>");
-                        out.println("<a href=\"view-book\" class=\"addBook\">Все книги</a>");
+                        out.println("<a href=\"books\" class=\"addBook\">Все книги</a>");
                     }
                 %>
             </div>
