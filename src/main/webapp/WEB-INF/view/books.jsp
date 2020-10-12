@@ -30,7 +30,7 @@
                     out.println("<li class=\"good\">");
                     out.println("<div class=\"book\"><img src=\"" + request.getContextPath() + "/resources/img/books/" + book.getBookSrc() + "\" width=\"144\" height=\"225\" alt=\"" + book.getTitle() + "\" /></div>");
                     out.println("<div class=\"buy\">");
-                    out.println("<a href=\"delete?id=" + book.getId() + "\">Удалить книгу</a>");
+                    out.println("<a href=\"books?delete=" + book.getId() + "\">Удалить книгу</a>");
                     out.println("<a href=\"edit?id=" + book.getId() + "\">Редактировать</a>");
                     out.println("</div>");
                     out.println("<b>" + book.getTitle() + "</b>");

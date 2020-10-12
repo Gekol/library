@@ -22,8 +22,12 @@ public class Books {
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn, String language) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (loggedIn && (Integer) session.getAttribute("type") == 3) {
+            String delete = request.getParameter("delete");
             List<Book> books = BookDao.getBooks(connection, language);
             request.setAttribute("books", books);
+            if (delete != null) {
+                BookDao.deleteBook(connection, Integer.parseInt(delete));
+            }
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/books.jsp");
             view.forward(request, response);
         } else {

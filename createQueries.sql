@@ -42,20 +42,12 @@ CREATE TABLE IF NOT EXISTS users
     last_name       VARCHAR(50),
     email           VARCHAR(100) NOT NULL UNIQUE,
     user_password   VARCHAR(100) NOT NULL,
-    user_type_id    INTEGER REFERENCES userTypes (id) ON DELETE CASCADE,
-    user_status_id  INTEGER REFERENCES userStatuses (id) ON DELETE CASCADE,
-    subscription_id INTEGER REFERENCES subscriptions (id) ON DELETE CASCADE
-);
-CREATE TABLE IF NOT EXISTS books
-(
-    id         INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title_en   VARCHAR(100),
-    title_ru   VARCHAR(100),
-    book_src   VARCHAR(100),
-    price      INTEGER,
-    fine       INTEGER,
-    author_id  VARCHAR(100) REFERENCES authors (id) ON DELETE CASCADE,
-    edition_id INTEGER references editions (id) ON DELETE CASCADE
+    user_type_id    INTEGER,
+    user_status_id  INTEGER,
+    subscription_id INTEGER,
+    FOREIGN KEY (user_type_id) REFERENCES userTypes (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_status_id) REFERENCES userStatuses (id) ON DELETE CASCADE,
+    FOREIGN KEY (subscription_id) REFERENCES subscriptions (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS editions
@@ -66,19 +58,38 @@ CREATE TABLE IF NOT EXISTS editions
     date     DATE
 );
 
+CREATE TABLE IF NOT EXISTS books
+(
+    id         INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title_en   VARCHAR(100),
+    title_ru   VARCHAR(100),
+    book_src   VARCHAR(100),
+    price      INTEGER,
+    fine       INTEGER,
+    author_id  VARCHAR(100),
+    edition_id INTEGER,
+    FOREIGN KEY (author_id) REFERENCES authors (id) ON DELETE CASCADE,
+    FOREIGN KEY (edition_id) REFERENCES editions (id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS catalog
 (
-    book_id     INTEGER references books (id),
-    book_amount INTEGER
+    book_id     INTEGER,
+    book_amount INTEGER,
+    FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS orders
 (
     id              INTEGER PRIMARY KEY AUTO_INCREMENT,
-    user_id         INTEGER REFERENCES users (id) ON DELETE CASCADE,
-    book_id         INTEGER REFERENCES books (id) ON DELETE CASCADE,
+    user_id         INTEGER,
+    book_id         INTEGER,
     fine            INTEGER,
     deadline        DATE NULL,
-    order_status_id integer references orderStatuses (id) ON DELETE CASCADE,
-    order_type_id   integer references orderTypes (id) ON DELETE CASCADE
+    order_status_id integer,
+    order_type_id   integer,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE,
+    FOREIGN KEY (order_status_id) REFERENCES orderStatuses (id) ON DELETE CASCADE,
+    FOREIGN KEY (order_type_id) REFERENCES orderTypes (id) ON DELETE CASCADE
 );

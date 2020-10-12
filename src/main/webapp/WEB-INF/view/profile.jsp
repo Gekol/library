@@ -109,10 +109,6 @@
                 <label for="fine" class="form__label">Размер штрафа</label>
                 <input type="number" name="fine" id="fine" placeholder="10" required>
             </div>
-            <%--            <div class="form__block">--%>
-            <%--                <label for="image">Изображение</label>--%>
-            <%--                <input type="text" name="image" id="image">--%>
-            <%--            </div>--%>
             <div class="form__block">
                 <label for="author" class="form__label">Автор</label>
                 <select name="author" id="author" required>
@@ -123,7 +119,7 @@
                 </select>
             </div>
             <div class="form__block">
-                <label for="edition" class="form__label">Название на русском</label>
+                <label for="edition" class="form__label">Издание</label>
                 <select name="edition" id="edition" required>
                     <% for (Edition edition : editions) {
                         out.println("<option value=\"" + edition.getId() + "\">" + edition.getTitle() + "</option>");

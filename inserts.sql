@@ -67,6 +67,8 @@ INSERT INTO authors(id, full_name_en, full_name_ru)
 VALUES ('bradbury', 'ray bradbury', 'рэй брэдберри');
 INSERT INTO authors(id, full_name_en, full_name_ru)
 VALUES ('fitzgerald', 'francis scott fitzgerald', 'фрэнсис скотт фицджеральд');
+INSERT INTO authors(id, full_name_en, full_name_ru)
+VALUES ('dostoevskyi', 'fedor dostoevskyi', 'фёдор достоевский');
 
 # Edition inserts
 INSERT INTO editions(title_en, title_ru, date)

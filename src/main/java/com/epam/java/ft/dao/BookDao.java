@@ -28,7 +28,7 @@ public class BookDao {
         ArrayList<Book> books = new ArrayList<>();
         String getBooksQuery = "SELECT b.id as b_id, b.title_" + language + " as b_title, book_src, price, fine, a.id as a_id, a.full_name_" + language + " as full_name, e.id as e_id, e.title_" + language + " as e_title" +
                 ", e.date\n FROM (books b JOIN authors a ON b.author_id = a.id)\n " +
-                "         JOIN editions e ON b.edition_id = e.id";
+                "         JOIN editions e ON b.edition_id = e.id ORDER BY b_title";
         try (Statement getBooksStatement = connection.createStatement()) {
             getBooksList(books, getBooksStatement.executeQuery(getBooksQuery));
         } catch (SQLException e) {
@@ -78,10 +78,10 @@ public class BookDao {
         return 0;
     }
 
-    public static int deleteBook(Connection connection, Book book) {
+    public static int deleteBook(Connection connection, int id) {
         String deleteBookQuery = "DELETE FROM books WHERE id=?";
         try (PreparedStatement deleteBookStatement = connection.prepareStatement(deleteBookQuery)) {
-            deleteBookStatement.setInt(1, book.getId());
+            deleteBookStatement.setInt(1, id);
             return deleteBookStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info(e.getMessage());
