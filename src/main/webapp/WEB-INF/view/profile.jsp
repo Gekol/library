@@ -10,7 +10,7 @@
 
 <head>
     <title>Профиль</title>
-    <jsp:include page="../../includeStyles.jsp"></jsp:include>
+    <jsp:include page="../../includeStyles.jsp"/>
 </head>
 
 <body>
@@ -23,19 +23,19 @@
     int fine = (Integer) request.getAttribute("fine");
 %>
 
-<jsp:include page="../../header.jsp"></jsp:include>
+<jsp:include page="../../header.jsp"/>
 
 <main class="catalog-main main-content">
     <section class="goods container">
         <h1 class="userName">
-            <div><% out.print(userName); %></div>
-            <div><%
+            <span><% out.print(userName); %></span>
+            <span><%
                 if (subscription == null) {
                     out.print("<a href=\"?createSubscription=true\" class='create-subscription'>У вас нет абонемента! Вы можете получить его прямо сейчас!</a>");
                 } else {
                     out.print("<span class='create-subscription'>Абонемент действует с " + subscription.getGiven() + " по " + subscription.getExpires() + "</span>");
                 }
-            %></div>
+            %></span>
         </h1>
         <div>
             <div>Электронная почта: <% out.print(email); %></div>
@@ -74,20 +74,7 @@
         </ul>
     </section>
 </main>
-<jsp:include page="../../footer.jsp"></jsp:include>
-<section class="item-added-block visually-hidden">
-    <div class="item-added">
-        <div class="message-block">
-            <img src="resources/img/icon-mark.png" alt="Purchase successful" width="66" height="66">
-            <p class="added">Товар добавлен в корзину!</p>
-        </div>
-        <div class="order-buttons">
-            <a href="form-order" class="make-order">Оформить заказ</a>
-            <a href="" class="keep-buying">Продолжить покупки</a>
-        </div>
-        <button class="modal-close" type="button" aria-label="Закрыть"></button>
-    </div>
-</section>
+<jsp:include page="../../footer.jsp"/>
 <script src="resources/js/popups.js"></script>
 </body>
 

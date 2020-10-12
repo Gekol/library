@@ -61,8 +61,8 @@
                             "                    </div>\n" +
                             "                </div>\n" +
                             "                <ul>\n" +
-                            "                    <li tabindex=\"0\"><a href=\"" + request.getContextPath() + "/profile\">Мои заказы</a></li>\n" +
-                            "                    <li tabindex=\"0\"><a href=\"" + request.getContextPath() + "/profile\">Личный кабинет</a></li>\n" +
+                            "                    <li tabindex=\"0\"><a href=\"profile\">Мои заказы</a></li>\n" +
+                            "                    <li tabindex=\"0\"><a href=\"profile\">Личный кабинет</a></li>\n" +
                             "                </ul>");
                 } else {
                     out.print("<div class=\"buttons\">\n" +
@@ -79,18 +79,17 @@
             %>
         </div>
     </div>
-    </div>
 
     <div class="navigation-content container">
         <nav class="navigation">
             <ul>
                 <li><a href="<%out.print(request.getContextPath());%>">Главная</a></li>
-                <li><a href="/company">Компания</a></li>
+                <li><a href="company">Компания</a></li>
                 <li><a href="<%out.print(request.getContextPath());%>">Каталог</a></li>
-                <li><a href="/news">Новости</a></li>
-                <li><a href="/specialOffers">Спецпредложения</a></li>
-                <li><a href="/delivery">Доставка</a></li>
-                <li><a href="/contacts">Контакты</a></li>
+                <li><a href="news">Новости</a></li>
+                <li><a href="specialOffers">Спецпредложения</a></li>
+                <li><a href="delivery">Доставка</a></li>
+                <li><a href="contacts">Контакты</a></li>
             </ul>
         </nav>
     </div>

@@ -1,13 +1,13 @@
 <%@ page import="com.epam.java.ft.models.User" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Users</title>
-    <jsp:include page="../../includeStyles.jsp"></jsp:include>
+    <jsp:include page="../../includeStyles.jsp"/>
 </head>
 <body>
-<jsp:include page="../../header.jsp"></jsp:include>
+<jsp:include page="../../header.jsp"/>
 
 <main class="catalog-main main-content">
     <section class="goods container">
@@ -24,6 +24,6 @@
     </section>
 </main>
 
-<jsp:include page="../../footer.jsp"></jsp:include>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>
