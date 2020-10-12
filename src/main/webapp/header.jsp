@@ -1,8 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <%
-    Object loggedIn = session.getAttribute("loggedIn");
-    String userName = (String) session.getAttribute("userName");
+    boolean loggedIn;
+    HttpSession httpSession = request.getSession(false);
+    if (httpSession == null || httpSession.getAttribute("loggedIn") == null) {
+        loggedIn = false;
+    } else {
+        loggedIn = (boolean) httpSession.getAttribute("loggedIn");
+    }
     String language = (String) request.getAttribute("language");
 %>
 <header class="header-block">
@@ -38,7 +43,8 @@
                 <p class="city">г. Днепр, ул. В. Жуковского, д. 21A</p>
             </div>
             <%
-                if (loggedIn != null && (loggedIn).equals("true")) {
+                if (loggedIn) {
+                    String userName = (String) session.getAttribute("userName");
                     out.print("<div class=\"profile-block\">\n" +
                             "                <div class=\"profile\">\n" +
                             "                    <div class=\"name\">\n" +

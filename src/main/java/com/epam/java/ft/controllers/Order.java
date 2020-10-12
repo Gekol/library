@@ -18,10 +18,10 @@ public class Order {
         Order.connection = connection;
     }
 
-    public static void addNewOrder(HttpServletRequest request, HttpServletResponse response, String loggedIn) throws IOException {
+    public static void addNewOrder(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) throws IOException {
         HttpSession session = request.getSession();
 
-        if (loggedIn.equals("true")) {
+        if (loggedIn) {
             OrderType orderType = OrderTypeDao.getOrderType(connection, request.getParameter("orderType"), "en");
             int bookId;
             if (orderType != null) {

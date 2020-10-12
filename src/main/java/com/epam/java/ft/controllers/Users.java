@@ -19,9 +19,9 @@ public class Users {
         Users.connection = connection;
     }
 
-    public static void get(HttpServletRequest request, HttpServletResponse response, String loggedIn, String language) throws ServletException, IOException {
+    public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn, String language) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (loggedIn.equals("true") && (Integer) session.getAttribute("type") > 1) {
+        if (loggedIn && (Integer) session.getAttribute("type") > 1) {
             List<User> users = UserDao.getAllUsers(connection, language);
             request.setAttribute("users", users);
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/users.jsp");

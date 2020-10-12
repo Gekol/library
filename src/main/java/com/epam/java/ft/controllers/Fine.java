@@ -18,9 +18,9 @@ public class Fine {
         Fine.connection = connection;
     }
 
-    public static void pay(HttpServletRequest request, HttpServletResponse response, String loggedIn) {
+    public static void pay(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) {
         HttpSession session = request.getSession();
-        if (loggedIn.equals("true") && ((Integer) session.getAttribute("type")) > 1) {
+        if (loggedIn && ((Integer) session.getAttribute("type")) > 1) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             OrderDao.payFine(connection, orderId);
             try {

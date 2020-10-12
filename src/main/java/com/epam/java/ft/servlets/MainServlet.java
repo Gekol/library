@@ -7,10 +7,10 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 
@@ -18,27 +18,27 @@ public class MainServlet extends HttpServlet {
     public static Logger logger = Logger.getLogger("MainServlet");
     private Connection connection = ConnectionPool.getConnection();
 
-    private static String getLanguage(HttpServletRequest request) {
+    private static String getLanguage(HttpServletRequest request, HttpServletResponse response) {
         String language = request.getParameter("language");
-        if (language == null) {
-            language = "ru";
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("language")) {
+                cookie.setValue((language == null) ? cookie.getValue() : language);
+                return cookie.getValue();
+            }
         }
-        return language;
+        response.addCookie(new Cookie("language", "ru"));
+        return "ru";
     }
 
-    public static String getLoggedIn(HttpSession session) {
-        String loggedIn = (String) session.getAttribute("loggedIn");
-        if (loggedIn == null) {
-            loggedIn = "false";
-        }
-        return loggedIn;
+    public static boolean getLoggedIn(HttpServletRequest request) {
+        return request.getSession(false) != null;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
-        String language = getLanguage(request);
-        String loggedIn = getLoggedIn(request.getSession());
+        String language = getLanguage(request, response);
+        boolean loggedIn = getLoggedIn(request);
         OrderDao.checkForFine(connection, 1);
         switch (path) {
             case "/":
@@ -86,7 +86,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String path = request.getServletPath();
-        String language = getLanguage(request);
+        String language = getLanguage(request, response);
         switch (path) {
             case "/":
                 Main.post(request, response, language);

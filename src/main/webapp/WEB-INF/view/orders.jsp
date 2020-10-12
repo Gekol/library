@@ -11,6 +11,18 @@
 <jsp:include page="../../header.jsp"/>
 <main class="catalog-main main-content">
     <section class="goods container">
+        <ul class="way">
+            <li><a href="<%out.print(request.getContextPath());%>"><img
+                    src="<%=request.getContextPath()%>/resources/img/icon-home.svg" width="14"
+                    height="12" alt="Main page"/></a></li>
+            <li><a href="<%out.print(request.getContextPath());%>">Заказы</a></li>
+        </ul>
+        <h3 class="books-block-title">Заказы
+            <span>
+                <a href="?language=en" class="switch-language">EN</a>
+                <a href="?language=ru" class="switch-language">RU</a>
+            </span>
+        </h3>
         <h1>Заказы</h1>
         <ul class="books-list users-list">
             <%

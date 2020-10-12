@@ -27,6 +27,18 @@
 
 <main class="catalog-main main-content">
     <section class="goods container">
+        <ul class="way">
+            <li><a href="<%out.print(request.getContextPath());%>"><img
+                    src="<%=request.getContextPath()%>/resources/img/icon-home.svg" width="14"
+                    height="12" alt="Main page"/></a></li>
+            <li><a href="<%out.print(request.getContextPath());%>">Личный кабинет</a></li>
+        </ul>
+        <h3 class="books-block-title">Личный кабинет
+            <span>
+                <a href="?language=en" class="switch-language">EN</a>
+                <a href="?language=ru" class="switch-language">RU</a>
+            </span>
+        </h3>
         <h1 class="userName">
             <span><% out.print(userName); %></span>
             <span><%

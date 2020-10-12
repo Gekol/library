@@ -24,10 +24,10 @@ public class Profile {
         Profile.connection = connection;
     }
 
-    public static void get(HttpServletRequest request, HttpServletResponse response, String loggedIn, String language) throws ServletException, IOException {
+    public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn, String language) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/profile.jsp");
         HttpSession session = request.getSession(true);
-        if (loggedIn.equals("true")) {
+        if (loggedIn) {
             String createSubscription = request.getParameter("createSubscription");
             if (createSubscription != null && createSubscription.equals("true")) {
                 Date todayDate = new Date(Calendar.getInstance().getTimeInMillis());
