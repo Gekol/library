@@ -20,7 +20,7 @@ public class Users {
     }
 
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn, String language) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (loggedIn && (Integer) session.getAttribute("type") > 1) {
             List<User> users = UserDao.getAllUsers(connection, language);
             request.setAttribute("users", users);

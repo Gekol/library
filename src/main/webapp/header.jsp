@@ -2,11 +2,10 @@
 
 <%
     boolean loggedIn;
-    HttpSession httpSession = request.getSession(false);
-    if (httpSession == null || httpSession.getAttribute("loggedIn") == null) {
+    if (session == null || session.getAttribute("loggedIn") == null) {
         loggedIn = false;
     } else {
-        loggedIn = (boolean) httpSession.getAttribute("loggedIn");
+        loggedIn = (boolean) session.getAttribute("loggedIn");
     }
     String language = (String) request.getAttribute("language");
 %>

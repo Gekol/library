@@ -19,7 +19,7 @@ public class Fine {
     }
 
     public static void pay(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (loggedIn && ((Integer) session.getAttribute("type")) > 1) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             OrderDao.payFine(connection, orderId);

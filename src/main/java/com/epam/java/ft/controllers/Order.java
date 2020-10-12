@@ -19,7 +19,7 @@ public class Order {
     }
 
     public static void addNewOrder(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) throws IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
 
         if (loggedIn) {
             OrderType orderType = OrderTypeDao.getOrderType(connection, request.getParameter("orderType"), "en");

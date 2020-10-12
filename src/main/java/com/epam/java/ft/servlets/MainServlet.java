@@ -31,7 +31,7 @@ public class MainServlet extends HttpServlet {
     }
 
     public static boolean getLoggedIn(HttpServletRequest request) {
-        return request.getSession(false) != null;
+        return request.getSession(false) != null && (Boolean) request.getSession().getAttribute("loggedIn");
     }
 
     @Override
@@ -75,6 +75,11 @@ public class MainServlet extends HttpServlet {
             case "/return":
                 ReturnBook.setConnection(connection);
                 ReturnBook.get(request, response, loggedIn);
+                break;
+            case "/makeLibrarian":
+            case "/deleteLibrarian":
+                Librarian.setConnection(connection);
+                Librarian.get(request, response, loggedIn);
                 break;
             default:
                 RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/error.html");

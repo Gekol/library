@@ -118,25 +118,12 @@ public class UserDao {
         return 0;
     }
 
-    public static int getRowsCount(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) as count FROM users");
-            if (resultSet.next()) {
-                return resultSet.getInt("count");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    private static int changeUserMetaData(Connection connection, int id, String type, String getTypeIdQuery, String updateTypeQuery) {
-        try (PreparedStatement getTypeIdStatement = connection.prepareStatement(getTypeIdQuery)) {
+    private static int changeUserMetaData(Connection connection, int id, String type, String getQuery, String updateQuery) {
+        try (PreparedStatement getTypeIdStatement = connection.prepareStatement(getQuery)) {
             getTypeIdStatement.setString(1, type);
             ResultSet res = getTypeIdStatement.executeQuery();
             if (res.next()) {
-                try (PreparedStatement updateStatusStatement = connection.prepareStatement(updateTypeQuery)) {
+                try (PreparedStatement updateStatusStatement = connection.prepareStatement(updateQuery)) {
                     updateStatusStatement.setInt(1, res.getInt("id"));
                     updateStatusStatement.setInt(2, id);
                     return updateStatusStatement.executeUpdate();

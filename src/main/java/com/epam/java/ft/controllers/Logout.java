@@ -9,9 +9,8 @@ public class Logout {
 
     public static void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        String loggedIn = (String) session.getAttribute("loggedIn");
-        if (loggedIn != null && loggedIn.equals("true")) {
-            session.setAttribute("loggedIn", "false");
+        if ((Boolean) session.getAttribute("loggedIn")) {
+            session.setAttribute("loggedIn", false);
         }
         response.sendRedirect(request.getContextPath());
     }

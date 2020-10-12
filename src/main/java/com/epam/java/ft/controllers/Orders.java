@@ -20,7 +20,7 @@ public class Orders {
     }
 
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn, String language) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (loggedIn && (Integer) session.getAttribute("type") > 1) {
             List<Order> orders = OrderDao.getAllOrders(connection, language);
             request.setAttribute("orders", orders);

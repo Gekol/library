@@ -17,7 +17,7 @@ public class ReturnBook {
     }
 
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) throws IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (loggedIn && (Integer) session.getAttribute("type") > 1) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             int bookId = Integer.parseInt(request.getParameter("bookId"));

@@ -26,14 +26,14 @@ public class Profile {
 
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn, String language) throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/profile.jsp");
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
         if (loggedIn) {
             String createSubscription = request.getParameter("createSubscription");
             if (createSubscription != null && createSubscription.equals("true")) {
                 Date todayDate = new Date(Calendar.getInstance().getTimeInMillis());
                 Date futureDate = addDays(todayDate);
                 int added = SubscriptionDao.createSubscription(connection, new Subscription(1, todayDate, futureDate));
-                int userId = (Integer) request.getSession().getAttribute("id");
+                int userId = (Integer) request.getSession(false).getAttribute("id");
                 if (added == 1) {
                     int subscriptionId = SubscriptionDao.getRowsCount(connection);
                     UserDao.updateUserSubscription(connection, userId, subscriptionId);
