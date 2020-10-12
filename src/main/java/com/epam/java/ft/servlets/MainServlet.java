@@ -81,6 +81,11 @@ public class MainServlet extends HttpServlet {
                 Librarian.setConnection(connection);
                 Librarian.get(request, response, loggedIn);
                 break;
+            case "/block":
+            case "/unblock":
+                Blocker.setConnection(connection);
+                Blocker.get(request, response, loggedIn);
+                break;
             default:
                 RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/error.html");
                 view.forward(request, response);

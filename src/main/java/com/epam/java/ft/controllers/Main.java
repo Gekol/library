@@ -141,10 +141,10 @@ public class Main {
         session.setAttribute("loggedIn", true);
         session.setAttribute("id", user.getId());
         session.setAttribute("type", user.getUserType().getId());
+        session.setAttribute("status", user.getUserStatus().getId());
         session.setAttribute("email", user.getEmail());
         session.setAttribute("subscription", user.getSubscription());
         session.setAttribute("userOrders", OrderDao.getOrderByUser(connection, user.getId(), language));
-
         session.setAttribute("userName", user.getUserName());
     }
 

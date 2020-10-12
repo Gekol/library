@@ -15,7 +15,7 @@ public class Librarian {
     }
 
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) throws IOException {
-        if (!loggedIn) {
+        if (!loggedIn || !(Boolean) request.getSession().getAttribute("loggedIn")) {
             response.sendRedirect(request.getContextPath());
             return;
         }
