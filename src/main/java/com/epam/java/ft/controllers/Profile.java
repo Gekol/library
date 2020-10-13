@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.Calendar;
@@ -60,7 +59,7 @@ public class Profile {
     public static void post(Connection connection, HttpServletRequest request, HttpServletResponse response, boolean loggedIn) throws IOException {
         if (loggedIn && (Integer) request.getSession(false).getAttribute("type") == 3) {
             String titleEn = request.getParameter("title_en");
-            String titleRu = new String(request.getParameter("title_ru").getBytes(), StandardCharsets.UTF_8);
+            String titleRu = request.getParameter("title_ru");
             int price = Integer.parseInt(request.getParameter("price"));
             int fine = Integer.parseInt(request.getParameter("fine"));
             String author = request.getParameter("author");

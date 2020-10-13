@@ -103,11 +103,11 @@
             </div>
             <div class="form__block">
                 <label for="price" class="form__label">Цена за час времени</label>
-                <input type="number" name="price" id="price" placeholder="10" required>
+                <input type="number" name="price" id="price" placeholder="10" class="form__input" required>
             </div>
             <div class="form__block">
                 <label for="fine" class="form__label">Размер штрафа</label>
-                <input type="number" name="fine" id="fine" placeholder="10" required>
+                <input type="number" name="fine" id="fine" placeholder="10" class="form__input" required>
             </div>
             <div class="form__block">
                 <label for="author" class="form__label">Автор</label>

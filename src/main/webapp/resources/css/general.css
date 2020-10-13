@@ -2279,9 +2279,20 @@ body {
     transform: rotate(-45deg);
 }
 
-.item-added-block, .registration-form, .login-form {
+.item-added-block {
     position: relative;
     grid-column: 2/3;
+}
+
+.edit-form {
+    display: flex;
+    justify-content: center;
+}
+
+.edit-form .item-added {
+    position: static;
+    margin-left: 0;
+    margin-bottom: 23px;
 }
 
 .item-added {

@@ -89,15 +89,17 @@ public class BookDao {
         return 0;
     }
 
-    public static int updateBook(Connection connection, Book book, String language) {
-        String deleteBookQuery = "UPDATE books SET title" + language + "=?, author_id=?, edition_id=? WHERE id=?";
-        try (PreparedStatement deleteBookStatement = connection.prepareStatement(deleteBookQuery)) {
-            deleteBookStatement.setString(1, book.getTitle());
-            deleteBookStatement.setString(1, book.getTitle());
-            deleteBookStatement.setString(3, book.getAuthor().getId());
-            deleteBookStatement.setInt(4, book.getEdition().getId());
-            deleteBookStatement.setInt(5, book.getId());
-            return deleteBookStatement.executeUpdate();
+    public static int updateBook(Connection connection, String titleEn, String titleRu, int fine, int price, String authorId, int editionId, int id) {
+        String deleteBookQuery = "UPDATE books SET title_en=?, title_ru=?, fine=?, price=?, author_id=?, edition_id=? WHERE id=?";
+        try (PreparedStatement updateBookStatement = connection.prepareStatement(deleteBookQuery)) {
+            updateBookStatement.setString(1, titleEn);
+            updateBookStatement.setString(2, titleRu);
+            updateBookStatement.setInt(3, fine);
+            updateBookStatement.setInt(4, price);
+            updateBookStatement.setString(5, authorId);
+            updateBookStatement.setInt(6, editionId);
+            updateBookStatement.setInt(7, id);
+            return updateBookStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }

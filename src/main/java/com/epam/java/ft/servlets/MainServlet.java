@@ -88,6 +88,10 @@ public class MainServlet extends HttpServlet {
                 Books.setConnection(connection);
                 Books.get(request, response, loggedIn, language);
                 break;
+            case "/edit":
+                BookEditor.setConnection(connection);
+                BookEditor.get(request, response, loggedIn, language);
+                break;
             default:
                 RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/error.html");
                 view.forward(request, response);
@@ -107,6 +111,9 @@ public class MainServlet extends HttpServlet {
             case "/profile":
                 Profile.post(connection, request, response, loggedIn);
                 break;
+            case "/edit":
+                BookEditor.setConnection(connection);
+                BookEditor.post(request, response, loggedIn);
         }
     }
 }
