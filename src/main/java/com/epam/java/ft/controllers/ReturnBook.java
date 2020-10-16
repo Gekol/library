@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class ReturnBook {
+    /**
+     * Logic for returning book
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {

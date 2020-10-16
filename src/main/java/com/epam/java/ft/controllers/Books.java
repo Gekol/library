@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.util.List;
 
 public class Books {
+    /**
+     * View all books
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {
@@ -25,6 +28,7 @@ public class Books {
             String delete = request.getParameter("delete");
             List<Book> books = BookDao.getBooks(connection, language);
             request.setAttribute("books", books);
+            request.setAttribute("language", language);
             if (delete != null) {
                 BookDao.deleteBook(connection, Integer.parseInt(delete));
             }

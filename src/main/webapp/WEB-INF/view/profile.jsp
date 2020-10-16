@@ -1,8 +1,12 @@
 <%@ page import="com.epam.java.ft.models.*" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.ResourceBundle" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<fmt:setLocale value="${param.language}"/>
+<fmt:setBundle basename="content"/>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -14,6 +18,7 @@
 
 <body>
 <%
+    ResourceBundle bundle = ResourceBundle.getBundle("content", new Locale((String) request.getAttribute("language")));
     String email = (String) session.getAttribute("email");
     String userName = (String) session.getAttribute("userName");
     Integer type = (Integer) session.getAttribute("type");
@@ -32,9 +37,9 @@
             <li><a href="<%out.print(request.getContextPath());%>"><img
                     src="<%=request.getContextPath()%>/resources/img/icon-home.svg" width="14"
                     height="12" alt="Main page"/></a></li>
-            <li><a href="<%out.print(request.getContextPath());%>">Личный кабинет</a></li>
+            <li><a href="<%out.print(request.getContextPath());%>"><fmt:message key="header.office"/></a></li>
         </ul>
-        <h3 class="books-block-title">Личный кабинет
+        <h3 class="books-block-title"><fmt:message key="header.office"/>
             <span>
                 <a href="?language=en" class="switch-language">EN</a>
                 <a href="?language=ru" class="switch-language">RU</a>
@@ -51,7 +56,7 @@
             %></span>
         </h1>
         <div>
-            <div>Электронная почта: <% out.print(email); %></div>
+            <div><fmt:message key="global.email"/>: <% out.print(email); %></div>
             <% if (orders.size() == 0) {
                 out.println("<div>Необработанных заказов нет!</div>");
             } else {
@@ -59,15 +64,15 @@
             }%>
             <div>
                 <%
+                    String fileName = "userLinks.jsp";
                     if (type > 1) {
-                        out.println("<a href=\"orders\">Все заказы</a>");
-                        out.println("<a href=\"users\">Все пользователи</a>");
+                        fileName = "../../librarianLinks.jsp";
                     }
                     if (type == 3) {
-                        out.println("<a href=\"add-book\" class=\"addBook\">Добавить новую книгу</a>");
-                        out.println("<a href=\"books\" class=\"addBook\">Все книги</a>");
+                        fileName = "../../adminLinks.jsp";
                     }
                 %>
+                <jsp:include page="<%= fileName %>"/>
             </div>
         </div>
         <ul class="books-list orders-list">
@@ -92,26 +97,26 @@
 <section class="item-added-block book-form visually-hidden">
     <div class="item-added">
         <form action="<%out.print(request.getContextPath());%>/profile" method="post">
-            <h1 class="form__title">Добавить книгу</h1>
+            <h1 class="form__title"><fmt:message key="profile.newBook"/></h1>
             <div class="form__block">
-                <label for="title_en" class="form__label">Название на английском</label>
+                <label for="title_en" class="form__label"><fmt:message key="book.englishTitle"/></label>
                 <input type="text" id="title_en" name="title_en" class="form__input" required>
             </div>
             <div class="form__block">
-                <label for="title_ru" class="form__label">Название на русском</label>
+                <label for="title_ru" class="form__label"><fmt:message key="book.russianTitle"/></label>
                 <input type="text" id="title_ru" name="title_ru" class="form__input" required>
             </div>
             <div class="form__block">
-                <label for="price" class="form__label">Цена за час времени</label>
+                <label for="price" class="form__label"><fmt:message key="book.price"/></label>
                 <input type="number" name="price" id="price" placeholder="10" class="form__input" required>
             </div>
             <div class="form__block">
-                <label for="fine" class="form__label">Размер штрафа</label>
+                <label for="fine" class="form__label"><fmt:message key="book.fine"/></label>
                 <input type="number" name="fine" id="fine" placeholder="10" class="form__input" required>
             </div>
             <div class="form__block">
-                <label for="author" class="form__label">Автор</label>
-                <select name="author" id="author" required>
+                <label for="author" class="form__label"><fmt:message key="index.author"/></label>
+                <select name="author" id="author" class="form__input" required>
                     <% for (Author author : authors) {
                         out.println("<option value=\"" + author.getId() + "\">" + author.getFullName() + "</option>");
                     }
@@ -119,8 +124,8 @@
                 </select>
             </div>
             <div class="form__block">
-                <label for="edition" class="form__label">Издание</label>
-                <select name="edition" id="edition" required>
+                <label for="edition" class="form__label"><fmt:message key="index.author"/></label>
+                <select name="edition" id="edition" class="form__input" required>
                     <% for (Edition edition : editions) {
                         out.println("<option value=\"" + edition.getId() + "\">" + edition.getTitle() + "</option>");
                     }
@@ -128,7 +133,7 @@
                 </select>
             </div>
             <div class="form__block">
-                <input type="submit" value="Отправить" class="form__input form__input__submit">
+                <input type="submit" value="<fmt:message key="global.submit"/>" class="form__input form__input__submit">
             </div>
         </form>
         <button class="modal-close" type="button" aria-label="Закрыть"></button>

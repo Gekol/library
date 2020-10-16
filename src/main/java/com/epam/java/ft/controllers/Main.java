@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+    /**
+     * Logic for main page
+     */
     private static HashMap<String, String> statuses = new HashMap<String, String>() {{
         put("active_en", "Active");
         put("active_ru", "Активный");
@@ -139,9 +142,15 @@ public class Main {
     private static void logIn(User user, HttpServletRequest request, String language) {
         HttpSession session = request.getSession();
         session.setAttribute("loggedIn", true);
-        OrderDao.checkForFine(connection, user.getId());
         session.setAttribute("id", user.getId());
         session.setAttribute("type", user.getUserType().getId());
+        if (user.getUserType().getId() > 1) {
+            for (int i = 1; i < UserDao.getRowsCount(connection) + 1; i++) {
+                OrderDao.checkForFine(connection, i);
+            }
+        } else {
+            OrderDao.checkForFine(connection, user.getId());
+        }
         session.setAttribute("status", user.getUserStatus().getId());
         session.setAttribute("email", user.getEmail());
         session.setAttribute("subscription", user.getSubscription());

@@ -1,6 +1,9 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.epam.java.ft.models.User" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<fmt:setLocale value="${param.language}"/>
+<fmt:setBundle basename="content"/>
 <html>
 <head>
     <title>Users</title>
@@ -15,9 +18,9 @@
             <li><a href="<%out.print(request.getContextPath());%>"><img
                     src="<%=request.getContextPath()%>/resources/img/icon-home.svg" width="14"
                     height="12" alt="Main page"/></a></li>
-            <li><a href="<%out.print(request.getContextPath());%>">Пользователи</a></li>
+            <li><a href="<%out.print(request.getContextPath());%>"><fmt:message key="global.orders"/></a></li>
         </ul>
-        <h3 class="books-block-title">Пользователи
+        <h3 class="books-block-title"><fmt:message key="global.orders"/>
             <span>
                 <a href="?language=en" class="switch-language">EN</a>
                 <a href="?language=ru" class="switch-language">RU</a>

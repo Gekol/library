@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class Order {
+    /**
+     * Logic for adding a new order
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {

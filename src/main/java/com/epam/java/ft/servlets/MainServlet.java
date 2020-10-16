@@ -19,14 +19,20 @@ public class MainServlet extends HttpServlet {
 
     private static String getLanguage(HttpServletRequest request, HttpServletResponse response) {
         String language = request.getParameter("language");
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("language")) {
-                cookie.setValue((language == null) ? cookie.getValue() : language);
-                return cookie.getValue();
+        if (request.getCookies() != null && language == null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("language")) {
+                    language = cookie.getValue();
+                    break;
+                }
             }
         }
-        response.addCookie(new Cookie("language", "ru"));
-        return "ru";
+        if (language == null) {
+            language = "ru";
+        }
+        Cookie languageCookie = new Cookie("language", language);
+        response.addCookie(languageCookie);
+        return languageCookie.getValue();
     }
 
     public static boolean getLoggedIn(HttpServletRequest request) {

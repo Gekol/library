@@ -1,7 +1,11 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.epam.java.ft.models.Book" %>
 <%@ page import="com.epam.java.ft.models.Order" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<fmt:setLocale value="${param.language}"/>
+<fmt:setBundle basename="content"/>
 <html>
 <head>
     <title>Заказы</title>
@@ -15,15 +19,14 @@
             <li><a href="<%out.print(request.getContextPath());%>"><img
                     src="<%=request.getContextPath()%>/resources/img/icon-home.svg" width="14"
                     height="12" alt="Main page"/></a></li>
-            <li><a href="<%out.print(request.getContextPath());%>">Заказы</a></li>
+            <li><a href="<%out.print(request.getContextPath());%>"><fmt:message key="global.orders"/></a></li>
         </ul>
-        <h3 class="books-block-title">Заказы
+        <h3 class="books-block-title"><fmt:message key="global.orders"/>
             <span>
                 <a href="?language=en" class="switch-language">EN</a>
                 <a href="?language=ru" class="switch-language">RU</a>
             </span>
         </h3>
-        <h1>Заказы</h1>
         <ul class="books-list users-list">
             <%
                 List<Order> orders = (List<Order>) request.getAttribute("orders");

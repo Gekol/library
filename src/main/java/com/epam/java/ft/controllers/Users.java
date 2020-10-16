@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.util.List;
 
 public class Users {
+    /**
+     * View all users
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {

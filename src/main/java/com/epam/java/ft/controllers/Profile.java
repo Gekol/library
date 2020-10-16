@@ -15,6 +15,9 @@ import java.sql.Date;
 import java.util.Calendar;
 
 public class Profile {
+    /**
+     * Logic for profile page
+     */
 
     private static Connection connection;
 
@@ -43,6 +46,7 @@ public class Profile {
             request.setAttribute("authors", AuthorDao.getAuthors(connection, language));
             request.setAttribute("editions", EditionDao.getEditions(connection, language));
             request.setAttribute("fine", OrderDao.getFinesSumByUser(connection, user.getId()));
+            request.setAttribute("language", language);
             view.forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath());

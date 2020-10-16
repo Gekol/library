@@ -49,8 +49,7 @@ VALUES ('Edition 3', 'Издание 3', '2020-3-1');
 # Books inserts
 INSERT INTO books(title_en, title_ru, book_src, price, fine, author_id, edition_id)
 VALUES ('Harry Potter and the Philosopher\'s stone', 'Гарри Поттер и философский камень',
-        'harry_potter_and_the_philosopher''s_stone.webp', 10, 5, 'rowling',
-        1);
+        'harry_potter_and_the_philosopher''s_stone.webp', 10, 5, 'rowling', 1);
 INSERT INTO books(title_en, title_ru, book_src, price, fine, author_id, edition_id)
 VALUES ('Harry Potter and the Chamber of Secrets', 'Гарри Поттер и тайная комната',
         'harry_potter_and_the_chamber_of_secrets.jpg', 10, 5, 'rowling', 1);

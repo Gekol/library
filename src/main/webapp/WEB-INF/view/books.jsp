@@ -1,6 +1,9 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.epam.java.ft.models.Book" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<fmt:setLocale value="${param.language}"/>
+<fmt:setBundle basename="content"/>
 <html>
 <head>
     <title>Books</title>

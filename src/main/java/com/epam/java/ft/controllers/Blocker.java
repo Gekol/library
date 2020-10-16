@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class Blocker {
+    /**
+     * Logic for blocking/unblocking user
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {
@@ -15,6 +18,7 @@ public class Blocker {
     }
 
     public static void get(HttpServletRequest request, HttpServletResponse response, boolean loggedIn) throws IOException {
+
         if (!loggedIn || !(Boolean) request.getSession().getAttribute("loggedIn")) {
             response.sendRedirect(request.getContextPath());
             return;

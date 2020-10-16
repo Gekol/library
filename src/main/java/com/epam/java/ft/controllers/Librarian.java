@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class Librarian {
+    /**
+     * Logic for creating/deleting librarian
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {

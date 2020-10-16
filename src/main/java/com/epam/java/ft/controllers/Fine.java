@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class Fine {
+    /**
+     * Logic for paying fine
+     */
 
     public static Logger logger = Logger.getLogger("Fine");
     private static Connection connection;

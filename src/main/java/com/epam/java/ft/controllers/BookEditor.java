@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class BookEditor {
+    /**
+     * Logic for editing of books
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {

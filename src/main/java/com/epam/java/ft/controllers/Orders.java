@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.util.List;
 
 public class Orders {
+    /**
+     * View all orders
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {
@@ -24,6 +27,7 @@ public class Orders {
         if (loggedIn && (Integer) session.getAttribute("type") > 1) {
             List<Order> orders = OrderDao.getAllOrders(connection, language);
             request.setAttribute("orders", orders);
+            request.setAttribute("language", language);
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/orders.jsp");
             view.forward(request, response);
         } else {

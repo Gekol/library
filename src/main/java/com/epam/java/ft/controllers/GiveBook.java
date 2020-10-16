@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class GiveBook {
+    /**
+     * Logic for giving book
+     */
     private static Connection connection;
 
     public static void setConnection(Connection connection) {

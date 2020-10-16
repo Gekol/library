@@ -37,10 +37,10 @@ public class BookDaoTest {
         List<Book> books = BookDao.getBooks(connection, "en");
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
-                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
             }
@@ -71,10 +71,10 @@ public class BookDaoTest {
         books.sort(Comparator.comparing(book -> book.getAuthor().getFullName()));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
-                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
             }
@@ -88,10 +88,10 @@ public class BookDaoTest {
         books.sort(Comparator.comparing(book -> book.getEdition().getTitle()));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
-                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
             }
@@ -105,10 +105,10 @@ public class BookDaoTest {
         books.sort(Comparator.comparing(book -> book.getEdition().getDate()));
         List<Book> expected = new ArrayList<Book>() {
             {
-                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
+                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
-                add(new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
+                add(new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
                         new Edition(1, "Edition 1", new Date(120, 0, 1)),
                         new Author("rowling", "Joanne Rowling")));
             }

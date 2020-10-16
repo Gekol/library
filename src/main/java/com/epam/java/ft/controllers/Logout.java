@@ -6,6 +6,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Logout {
+    /**
+     * Logic for logout
+     */
 
     public static void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

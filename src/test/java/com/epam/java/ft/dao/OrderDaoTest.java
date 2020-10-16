@@ -39,12 +39,12 @@ public class OrderDaoTest {
                         new User(1, "Darth", "Vader", "vader@example.com", "1111", null, null, null),
                         new Book(1, "Harry Potter and the Philosopher's stone", "harry_potter_and_the_philosopher's_stone.webp", 10, 5,
                                 new Edition(1, "Edition 1", new Date(120, 0, 1)),
-                                new Author("rowling", "Joanne Rowling")), 0, null, null, null));
+                                new Author("rowling", "Joanne Rowling")), 0, null, new OrderStatus(1, "New"), new OrderType(1, "Subscription")));
                 add(new Order(2,
                         new User(3, "Mace", "Vindu", "vindu@example.com", "1111", null, null, null),
                         new Book(2, "Harry Potter and the Chamber of Secrets", "harry_potter_and_the_chamber_of_secrets.jpg", 10, 5,
                                 new Edition(1, "Edition 1", new Date(120, 0, 1)),
-                                new Author("rowling", "Joanne Rowling")), 0, null, null, null));
+                                new Author("rowling", "Joanne Rowling")), 0, null, new OrderStatus(2, "Awaiting return"), new OrderType(1, "Subscription")));
             }
         };
         Assert.assertEquals(expected, orders);
