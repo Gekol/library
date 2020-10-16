@@ -132,6 +132,12 @@ public class BookDaoTest {
         Assert.assertEquals(expected.toString(), books.toString());
     }
 
+    @Test
+    public void getFineTest() {
+        int fine = BookDao.getFine(connection, 1);
+        Assert.assertEquals(5, fine);
+    }
+
     @After
     public void DropDatabase() {
         try {
