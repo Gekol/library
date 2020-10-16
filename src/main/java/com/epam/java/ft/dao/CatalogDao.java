@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class CatalogDao {
     private static Logger logger = Logger.getLogger("OrderTypeDao");
 
-    public static int checkBook(Connection connection, int id) {
+    public static int getBookAmount(Connection connection, int id) {
         String checkQuery = "SELECT book_amount FROM catalog WHERE book_id=?;";
         try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
             checkStatement.setInt(1, id);

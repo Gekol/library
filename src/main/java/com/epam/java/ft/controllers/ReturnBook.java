@@ -25,7 +25,7 @@ public class ReturnBook {
             int orderId = Integer.parseInt(request.getParameter("id"));
             int bookId = Integer.parseInt(request.getParameter("bookId"));
             OrderDao.setStatus(connection, orderId, 3);
-            int bookCount = CatalogDao.checkBook(connection, bookId);
+            int bookCount = CatalogDao.getBookAmount(connection, bookId);
             CatalogDao.changeBookAmount(connection, bookId, bookCount + 1);
             response.sendRedirect(request.getContextPath() + "/orders");
         } else {

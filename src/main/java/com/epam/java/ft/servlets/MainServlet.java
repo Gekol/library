@@ -4,7 +4,6 @@ import com.epam.java.ft.controllers.*;
 import com.epam.java.ft.dao.ConnectionPool;
 import org.apache.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -98,9 +97,11 @@ public class MainServlet extends HttpServlet {
                 BookEditor.setConnection(connection);
                 BookEditor.get(request, response, loggedIn, language);
                 break;
+            case "/error":
+                ErrorPage.doGet(request, response);
+                break;
             default:
-                RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/error.html");
-                view.forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/error");
                 break;
         }
     }

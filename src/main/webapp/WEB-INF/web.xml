@@ -38,14 +38,8 @@
         <welcome-file>view/index.html</welcome-file>
         <welcome-file>view/index.jsp</welcome-file>
     </welcome-file-list>
-    <!--    <error-page>-->
-    <!--        <exception-type>java.lang.Throwable</exception-type>-->
-    <!--        <location>/WEB-INF/view/error_page.jsp</location>-->
-    <!--    </error-page>-->
-
-    <!--    <error-page>-->
-    <!--        <error-code>404</error-code>-->
-    <!--        <location>/WEB-INF/view/error_page.jsp</location>-->
-    <!--    </error-page>-->
-
+    <error-page>
+        <exception-type>java.lang.Error</exception-type>
+        <location>/ErrorPage</location>
+    </error-page>
 </web-app>

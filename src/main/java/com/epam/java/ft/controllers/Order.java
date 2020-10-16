@@ -29,7 +29,7 @@ public class Order {
             int bookId;
             if (orderType != null) {
                 bookId = Integer.parseInt(request.getParameter("book_id"));
-                int bookCount = CatalogDao.checkBook(connection, bookId);
+                int bookCount = CatalogDao.getBookAmount(connection, bookId);
                 if (bookCount > 0) {
                     OrderDao.insertNewOrder(connection, (Integer) session.getAttribute("id"), bookId, orderType.getId());
                     CatalogDao.changeBookAmount(connection, bookId, bookCount - 1);
