@@ -27,6 +27,7 @@ public class Users {
         if (loggedIn && (Integer) session.getAttribute("type") > 1) {
             List<User> users = UserDao.getAllUsers(connection, language);
             request.setAttribute("users", users);
+            request.setAttribute("language", language);
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/view/users.jsp");
             view.forward(request, response);
         } else {

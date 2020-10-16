@@ -33,6 +33,11 @@ public class Order {
                 if (bookCount > 0) {
                     OrderDao.insertNewOrder(connection, (Integer) session.getAttribute("id"), bookId, orderType.getId());
                     CatalogDao.changeBookAmount(connection, bookId, bookCount - 1);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             response.sendRedirect(request.getContextPath() + "/profile");

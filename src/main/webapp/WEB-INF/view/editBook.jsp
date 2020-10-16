@@ -3,25 +3,25 @@
 <%@ page import="com.epam.java.ft.models.Edition" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% %>
-<fmt:setLocale value="${param.language}"/>
-<fmt:setBundle basename="content"/>
-<html>
-<head>
-    <title>Books</title>
-    <jsp:include page="../../includeStyles.jsp"/>
-</head>
-<body>
-<jsp:include page="../../header.jsp"/>
 <%
     List<Author> authors = (List<Author>) request.getAttribute("authors");
     List<Edition> editions = (List<Edition>) request.getAttribute("editions");
 %>
+<fmt:setLocale value="${param.language}"/>
+<fmt:setBundle basename="content"/>
+<html lang="${param.language}">
+<head>
+    <title><fmt:message key="book.edit"/> <fmt:message key="book"/></title>
+    <jsp:include page="../../includeStyles.jsp"/>
+</head>
+<body>
+<jsp:include page="../../header.jsp"/>
 <main class="catalog-main main-content">
     <section class="item-added-block edit-form">
         <div class="item-added">
-            <form action="<%out.print(request.getContextPath());%>/profile" method="post">
-                <h1 class="form__title"><fmt:message key="profile.newBook"/></h1>
+            <form action="<%out.print(request.getContextPath());%>/edit" method="post">
+                <h1 class="form__title"><fmt:message key="profile.editBook"/></h1>
+                <input type="hidden" name="id" id="id" value="<% out.print(request.getAttribute("book")); %>"/>
                 <div class="form__block">
                     <label for="title_en" class="form__label"><fmt:message key="book.englishTitle"/></label>
                     <input type="text" id="title_en" name="title_en" class="form__input" required>
@@ -57,7 +57,8 @@
                     </select>
                 </div>
                 <div class="form__block">
-                    <input type="submit" value="<fmt:message key="submit"/>" class="form__input form__input__submit">
+                    <input type="submit" value="<fmt:message key="global.submit"/>"
+                           class="form__input form__input__submit">
                 </div>
             </form>
         </div>

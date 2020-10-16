@@ -7,16 +7,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setLocale value="${param.language}"/>
 <fmt:setBundle basename="content"/>
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-    <title>Профиль</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <jsp:include page="../../includeStyles.jsp"/>
-</head>
-
-<body>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("content", new Locale((String) request.getAttribute("language")));
     String email = (String) session.getAttribute("email");
@@ -28,6 +18,16 @@
     List<Edition> editions = (List<Edition>) request.getAttribute("editions");
     int fine = (Integer) request.getAttribute("fine");
 %>
+<!DOCTYPE html>
+<html lang="${param.language}">
+
+<head>
+    <title><fmt:message key="profile"/></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <jsp:include page="../../includeStyles.jsp"/>
+</head>
+
+<body>
 
 <jsp:include page="../../header.jsp"/>
 
@@ -49,18 +49,18 @@
             <span><% out.print(userName); %></span>
             <span><%
                 if (subscription == null) {
-                    out.print("<a href=\"?createSubscription=true\" class='create-subscription'>У вас нет абонемента! Вы можете получить его прямо сейчас!</a>");
+                    out.print("<a href=\"?createSubscription=true\" class='create-subscription'>" + bundle.getString("profile.getSubscription") + "</a>");
                 } else {
-                    out.print("<span class='create-subscription'>Абонемент действует с " + subscription.getGiven() + " по " + subscription.getExpires() + "</span>");
+                    out.print("<span class='create-subscription'>" + bundle.getString("profile.subscriptionActive") + " " + subscription.getGiven() + " " + bundle.getString("global.to") + " " + subscription.getExpires() + "</span>");
                 }
             %></span>
         </h1>
         <div>
             <div><fmt:message key="global.email"/>: <% out.print(email); %></div>
             <% if (orders.size() == 0) {
-                out.println("<div>Необработанных заказов нет!</div>");
+                out.println("<div>" + bundle.getString("profile.noSubscription") + "</div>");
             } else {
-                out.println("<div>Общая сумма штрафа: " + fine + "</div>");
+                out.println("<div>" + bundle.getString("profile.overallFine") + ": " + fine + "</div>");
             }%>
             <div>
                 <%
@@ -82,11 +82,11 @@
                     out.println("<li class=\"good\">");
                     out.println("<div class=\"book\"><img src=\"" + request.getContextPath() + "/resources/img/books/" + book.getBookSrc() + "\" width=\"144\" height=\"225\" alt=\"" + order.getBook().getTitle() + "\" /></div>");
                     out.println("<div class=\"buy\">");
-                    out.println((order.getFine() > 0) ? "<span>Срок сдачи пропущен!!!</span>" : "<span>Срок не прошёл!!!</span>");
+                    out.println((order.getFine() > 0) ? "<span>" + bundle.getString("profile.overdue") + "</span>" : "<span>" + bundle.getString("profile.timeLeft") + "</span>");
                     out.println("</div>");
                     out.println("<b>" + book.getTitle() + "</b>");
-                    out.println("<p class=\"author\">" + ((order.getDeadline() == null) ? "Вы ещё не забрали книгу!!!" : order.getDeadline().toString()) + "</p>");
-                    out.println("<p class=\"current-price\">Штраф: " + order.getFine() + "</p>");
+                    out.println("<p class=\"author\">" + ((order.getDeadline() == null) ? bundle.getString("index.bookNotTaken") : order.getDeadline().toString()) + "</p>");
+                    out.println("<p class=\"current-price\">" + bundle.getString("book.fine") + ": " + order.getFine() + "</p>");
                     out.println("</li>");
                 }
             %>
@@ -136,7 +136,7 @@
                 <input type="submit" value="<fmt:message key="global.submit"/>" class="form__input form__input__submit">
             </div>
         </form>
-        <button class="modal-close" type="button" aria-label="Закрыть"></button>
+        <button class="modal-close" type="button" aria-label="<fmt:message key="global.close" />"></button>
     </div>
 </section>
 <script src="<%=request.getContextPath()%>/resources/js/popups.js"></script>
