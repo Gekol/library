@@ -64,7 +64,7 @@
             }%>
             <div>
                 <%
-                    String fileName = "userLinks.jsp";
+                    String fileName = "../../userLinks.jsp";
                     if (type > 1) {
                         fileName = "../../librarianLinks.jsp";
                     }
