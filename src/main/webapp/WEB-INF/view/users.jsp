@@ -10,6 +10,7 @@
 <% ResourceBundle bundle = ResourceBundle.getBundle("content", new Locale((String) request.getAttribute("language"))); %>
 <head>
     <title><fmt:message key="global.users"/></title>
+    <meta name="description" content="<fmt:message key="meta.users"/>">
     <jsp:include page="../../includeStyles.jsp"/>
 </head>
 <body>
@@ -32,7 +33,7 @@
         <ul class="books-list users-list">
             <%
                 List<User> users = (List<User>) request.getAttribute("users");
-                int type = (int) session.getAttribute("type");
+                int type = (Integer) session.getAttribute("type");
                 for (User user : users) {
                     out.print("<li class=\"good\"><p>" + user.getUserName() + "</p><p>" + user.getEmail() + "</p><p>" +
                             ((user.getSubscription() == null) ? bundle.getString("profile.getSubscription") : (bundle.getString("profile.subscriptionActive") + " " + user.getSubscription().getGiven().toString() + " " + bundle.getString("global.to") + " " + user.getSubscription().getExpires().toString())) +

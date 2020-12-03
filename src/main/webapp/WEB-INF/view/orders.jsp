@@ -14,6 +14,7 @@
 <html lang="${param.language}">
 <head>
     <title><fmt:message key="global.orders"/></title>
+    <meta name="description" content="<fmt:message key="meta.orders"/>">
     <jsp:include page="../../includeStyles.jsp"/>
 </head>
 <body>

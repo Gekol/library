@@ -23,7 +23,7 @@
 
 <head>
     <title><fmt:message key="profile"/></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="<fmt:message key="meta.profile"/>">
     <jsp:include page="../../includeStyles.jsp"/>
 </head>
 

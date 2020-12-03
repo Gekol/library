@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 
 public class Books {
@@ -27,7 +28,9 @@ public class Books {
         if (loggedIn && (Integer) session.getAttribute("type") == 3) {
             String delete = request.getParameter("delete");
             List<Book> books = BookDao.getBooks(connection, language);
+            HashMap<String, Integer> bookCounts = BookDao.getBookCounts(connection, language);
             request.setAttribute("books", books);
+            request.setAttribute("bookCounts", bookCounts);
             request.setAttribute("language", language);
             if (delete != null) {
                 BookDao.deleteBook(connection, Integer.parseInt(delete));
